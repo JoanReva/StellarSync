@@ -2,7 +2,11 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAudio } from '../../hooks/useAudio';
 import { useGameStore } from '../../store/useGameStore';
-import { TICKING_THRESHOLD_SECONDS } from '../../utils/constants';
+import {
+  TICKING_THRESHOLD_MS,
+  TIMER_ANIMATION_CONFIG,
+  TIMER_TICK_MS,
+} from '../../utils/constants';
 
 export const Timer = () => {
   const timeRemaining = useGameStore((state) => state.timeRemaining);
@@ -14,7 +18,8 @@ export const Timer = () => {
     status === 'playing' &&
     !isTimerPaused &&
     timeRemaining > 0 &&
-    timeRemaining <= TICKING_THRESHOLD_SECONDS;
+    timeRemaining <= TICKING_THRESHOLD_MS;
+  const formattedTimeRemaining = (timeRemaining / 1000).toFixed(1);
 
   useEffect(() => {
     if (status !== 'playing' || isTimerPaused) {
@@ -23,7 +28,7 @@ export const Timer = () => {
 
     const intervalId = window.setInterval(() => {
       tickTimer();
-    }, 1000);
+    }, TIMER_TICK_MS);
 
     return () => window.clearInterval(intervalId);
   }, [isTimerPaused, status, tickTimer]);
@@ -42,15 +47,67 @@ export const Timer = () => {
     <motion.div
       role="timer"
       aria-live={isLowTime ? 'assertive' : 'polite'}
-      className="absolute left-4 top-4 z-20 rounded-full bg-white px-5 py-3 text-xl font-bold text-[var(--color-text-main)] shadow-xl ring-2 ring-white/70 sm:left-5 sm:top-5"
-      animate={isLowTime ? { scale: [1, 1.06, 1] } : { scale: 1 }}
+      aria-label={`Remaining time: ${formattedTimeRemaining} seconds`}
+      className="absolute left-4 top-4 z-20 flex items-baseline gap-2 rounded-full px-5 py-3 ring-2 sm:left-5 sm:top-5"
+      animate={
+        isLowTime
+          ? {
+              backgroundColor: 'var(--color-timer-low-bg)',
+              color: 'var(--color-timer-low-text)',
+              boxShadow: [...TIMER_ANIMATION_CONFIG.lowTimeBoxShadow],
+            }
+          : {
+              backgroundColor: 'var(--color-timer-bg)',
+              color: 'var(--color-timer-text)',
+              boxShadow: TIMER_ANIMATION_CONFIG.normalBoxShadow,
+            }
+      }
       transition={
         isLowTime
-          ? { repeat: Infinity, duration: 0.8 }
-          : { duration: 0.2 }
+          ? {
+              repeat: Infinity,
+              duration: TIMER_ANIMATION_CONFIG.lowTimeDurationSeconds,
+            }
+          : { duration: TIMER_ANIMATION_CONFIG.normalDurationSeconds }
       }
+      style={{
+        ['--tw-ring-color' as string]: isLowTime
+          ? 'var(--color-timer-low-ring)'
+          : 'var(--color-timer-ring)',
+      }}
     >
-      {timeRemaining} seconds
+      <span
+        className="text-sm font-semibold uppercase tracking-wide"
+        style={{
+          color: 'var(--color-timer-label)',
+        }}
+      >
+        Remaining time
+      </span>
+      <motion.span
+        className="text-2xl font-bold tabular-nums"
+        animate={
+          isLowTime
+            ? {
+                scale: [...TIMER_ANIMATION_CONFIG.lowTimeScalePulse],
+                color: 'var(--color-timer-low-text)',
+              }
+            : {
+                scale: TIMER_ANIMATION_CONFIG.normalScale,
+                color: 'var(--color-timer-text)',
+              }
+        }
+        transition={
+          isLowTime
+            ? {
+                repeat: Infinity,
+                duration: TIMER_ANIMATION_CONFIG.lowTimeDurationSeconds,
+              }
+            : { duration: TIMER_ANIMATION_CONFIG.normalDurationSeconds }
+        }
+      >
+        {formattedTimeRemaining}s
+      </motion.span>
     </motion.div>
   );
 };

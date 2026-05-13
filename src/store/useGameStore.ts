@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import {
   CARD_SYMBOLS,
-  GAME_DURATION_SECONDS,
+  GAME_DURATION_MS,
+  TIMER_TICK_MS,
   TOTAL_PAIRS,
 } from '../utils/constants';
 import { shuffle, type RandomSource } from '../utils/shuffle';
@@ -70,7 +71,7 @@ const createInitialState = (): GameState => ({
   attempts: 0,
   status: 'idle',
   feedback: null,
-  timeRemaining: GAME_DURATION_SECONDS,
+  timeRemaining: GAME_DURATION_MS,
   isTimerPaused: true,
 });
 
@@ -206,7 +207,10 @@ export const useGameStore = create<GameStore>((set) => ({
         return state;
       }
 
-      const nextTimeRemaining = Math.max(state.timeRemaining - 1, 0);
+      const nextTimeRemaining = Math.max(
+        state.timeRemaining - TIMER_TICK_MS,
+        0,
+      );
 
       if (nextTimeRemaining === 0) {
         return {
