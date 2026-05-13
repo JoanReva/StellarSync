@@ -1,110 +1,37 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
+import { ScreenWrapper } from './components/Common/ScreenWrapper';
+import { ErrorBoundary } from './components/Common/ErrorBoundary';
 
-import './App.css'
+type ScreenState = 'START' | 'GAME' | 'RESOLVE';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentScreen, setCurrentScreen] = useState<ScreenState>('START');
 
   return (
-    <main className="min-h-screen">
-      <section id="center">
+    <ErrorBoundary>
+      {/* mode="wait" asegura que la pantalla actual haga el fade-out antes de que la otra inicie sus animaciones */}
+      <AnimatePresence mode="wait">
+        {currentScreen === 'START' && (
+          <ScreenWrapper id="start-wrapper">
+            START SCREEN
+          </ScreenWrapper>
+        )}
 
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+        {currentScreen === 'GAME' && (
+          <ScreenWrapper id="game-wrapper">
+             SECOND SCREEN
+          </ScreenWrapper>
+        )}
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-
-            </li>
-            <li>
-
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </main>
-  )
+        {currentScreen === 'RESOLVE' && (
+          <ScreenWrapper id="resolve-wrapper">
+            RESOLVE SCREEN
+          </ScreenWrapper>
+        )}
+      </AnimatePresence>
+    </ErrorBoundary>
+  );
 }
 
-export default App
+export default App;
