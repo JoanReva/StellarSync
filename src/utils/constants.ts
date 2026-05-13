@@ -31,3 +31,7 @@ export const CARD_THEME_CONFIG = {
 export const BOARD_ANIMATION_CONFIG = {
   comparisonDelayMs: 1000,
 } as const;
+
+export const FEEDBACK_MODAL_CONFIG = {
+  autoCloseMs: 1000,
+} as const;

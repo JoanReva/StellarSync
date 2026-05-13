@@ -1,28 +1,11 @@
-import { useEffect } from 'react';
 import { Card } from './Card';
 import { useGameStore } from '../../store/useGameStore';
-import { BOARD_ANIMATION_CONFIG } from '../../utils/constants';
 
 export const Board = () => {
   const cards = useGameStore((state) => state.cards);
   const isBoardLocked = useGameStore((state) => state.isBoardLocked);
   const selectedCardIds = useGameStore((state) => state.selectedCardIds);
   const selectCard = useGameStore((state) => state.selectCard);
-  const resolvePendingSelection = useGameStore(
-    (state) => state.resolvePendingSelection,
-  );
-
-  useEffect(() => {
-    if (!isBoardLocked) {
-      return undefined;
-    }
-
-    const timeoutId = window.setTimeout(() => {
-      resolvePendingSelection();
-    }, BOARD_ANIMATION_CONFIG.comparisonDelayMs);
-
-    return () => window.clearTimeout(timeoutId);
-  }, [isBoardLocked, resolvePendingSelection]);
 
   return (
     <section
