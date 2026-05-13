@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-card-blue: #1e40af;
+    --color-card-yellow: #facc15;
+
+    --color-bg-main: #f8fafc;
+    --color-success: #22c55e;
+    --color-error: #ef4444;
+  }
+
+  body {
+    @apply bg-[var(--color-bg-main)] text-slate-800 antialiased overflow-hidden;
+  }
+}
+
