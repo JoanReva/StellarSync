@@ -153,7 +153,8 @@ export const useGameStore = create<GameStore>((set) => ({
         cards: state.cards.map((card) =>
           matchedIds.has(card.id) ? matchCard(card) : card,
         ),
-        selectedCardIds: [],
+        selectedCardIds: [firstCard.id, selectedCard.id],
+        isBoardLocked: true,
         matchesFound: nextMatchesFound,
         attempts: nextAttempts,
         status: nextStatus,
