@@ -1,0 +1,50 @@
+import { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { Button } from '../Common/Button';
+
+interface StartScreenProps {
+  onStart: () => void;
+}
+
+export const StartScreen = ({ onStart }: StartScreenProps) => {
+  const startButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    startButtonRef.current?.focus();
+  }, []);
+
+  return (
+    <div className="flex w-full max-w-sm flex-col items-center gap-10 px-6">
+      {/*Logo slide in from the top*/}
+      <motion.div
+        initial={{ y: "-100vh", opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", damping: 20, stiffness: 100 }}
+      >
+        <img
+          src="/logo.svg"
+          alt="Game Logo"
+          className="h-auto max-h-40 w-48 object-contain md:max-h-48 md:w-52"
+        />
+      </motion.div>
+
+    <motion.div
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1, transition: { duration: 2 } }}
+    >
+    <h1 className="text-7xl font-bold text-center pb-6">StellarSync</h1>
+    </motion.div>
+
+      {/*Button slide in from the bottom*/}
+      <motion.div
+        initial={{ y: "100vh", opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", damping: 20, stiffness: 100, delay: 0.5 }}
+      >
+        <Button ref={startButtonRef} onClick={onStart} size="lg">
+          Start
+        </Button>
+      </motion.div>
+    </div>
+  );
+};
