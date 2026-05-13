@@ -33,5 +33,5 @@ export const BOARD_ANIMATION_CONFIG = {
 } as const;
 
 export const FEEDBACK_MODAL_CONFIG = {
-  autoCloseMs: 1000,
+  autoCloseMs: 1500,
 } as const;

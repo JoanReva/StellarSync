@@ -1,5 +1,9 @@
 import { create } from 'zustand';
-import { CARD_SYMBOLS, TOTAL_PAIRS } from '../utils/constants';
+import {
+  CARD_SYMBOLS,
+  GAME_DURATION_SECONDS,
+  TOTAL_PAIRS,
+} from '../utils/constants';
 import { shuffle, type RandomSource } from '../utils/shuffle';
 
 export type CardSymbol = (typeof CARD_SYMBOLS)[number];
@@ -26,6 +30,8 @@ type GameState = {
   attempts: number;
   status: GameStatus;
   feedback: Feedback | null;
+  timeRemaining: number;
+  isTimerPaused: boolean;
 };
 
 type GameActions = {
@@ -34,6 +40,9 @@ type GameActions = {
   selectCard: (cardId: string) => void;
   resolvePendingSelection: () => void;
   clearFeedback: () => void;
+  tickTimer: () => void;
+  pauseTimer: () => void;
+  resumeTimer: () => void;
   loseGame: () => void;
 };
 
@@ -61,6 +70,8 @@ const createInitialState = (): GameState => ({
   attempts: 0,
   status: 'idle',
   feedback: null,
+  timeRemaining: GAME_DURATION_SECONDS,
+  isTimerPaused: true,
 });
 
 const flipCard = (card: MemoryCard): MemoryCard => ({
@@ -87,6 +98,7 @@ export const useGameStore = create<GameStore>((set) => ({
       ...createInitialState(),
       cards: createDeck(randomSource),
       status: 'playing',
+      isTimerPaused: false,
     });
   },
 
@@ -95,6 +107,7 @@ export const useGameStore = create<GameStore>((set) => ({
       ...createInitialState(),
       cards: createDeck(randomSource),
       status: 'playing',
+      isTimerPaused: false,
     });
   },
 
@@ -158,6 +171,7 @@ export const useGameStore = create<GameStore>((set) => ({
         matchesFound: nextMatchesFound,
         attempts: nextAttempts,
         status: nextStatus,
+        isTimerPaused: nextStatus === 'won',
         feedback: { type: 'match' },
       };
     });
@@ -186,11 +200,52 @@ export const useGameStore = create<GameStore>((set) => ({
     set({ feedback: null });
   },
 
+  tickTimer: () => {
+    set((state) => {
+      if (state.status !== 'playing' || state.isTimerPaused) {
+        return state;
+      }
+
+      const nextTimeRemaining = Math.max(state.timeRemaining - 1, 0);
+
+      if (nextTimeRemaining === 0) {
+        return {
+          ...state,
+          timeRemaining: 0,
+          selectedCardIds: [],
+          isBoardLocked: false,
+          isTimerPaused: true,
+          status: 'lost',
+        };
+      }
+
+      return {
+        ...state,
+        timeRemaining: nextTimeRemaining,
+      };
+    });
+  },
+
+  pauseTimer: () => {
+    set((state) => ({
+      ...state,
+      isTimerPaused: true,
+    }));
+  },
+
+  resumeTimer: () => {
+    set((state) => ({
+      ...state,
+      isTimerPaused: state.status !== 'playing',
+    }));
+  },
+
   loseGame: () => {
     set((state) => ({
       ...state,
       selectedCardIds: [],
       isBoardLocked: false,
+      isTimerPaused: true,
       status: state.status === 'won' ? 'won' : 'lost',
     }));
   },

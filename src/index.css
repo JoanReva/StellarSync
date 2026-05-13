@@ -21,8 +21,18 @@
     --color-error: #ef4444;
   }
 
-  body {
+  html {
     font-family: 'Poppins', sans-serif;
+  }
+
+  body {
     @apply bg-[var(--color-bg-main)] text-[var(--color-text-main)] antialiased overflow-hidden;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
   }
 }

@@ -11,6 +11,9 @@ const feedbackText = {
 
 export const FeedbackModal = () => {
   const feedback = useGameStore((state) => state.feedback);
+  const status = useGameStore((state) => state.status);
+  const pauseTimer = useGameStore((state) => state.pauseTimer);
+  const resumeTimer = useGameStore((state) => state.resumeTimer);
   const resolvePendingSelection = useGameStore(
     (state) => state.resolvePendingSelection,
   );
@@ -19,19 +22,24 @@ export const FeedbackModal = () => {
   const closeFeedback = useCallback(() => {
     resolvePendingSelection();
     clearFeedback();
-  }, [clearFeedback, resolvePendingSelection]);
+    if (status === 'playing') {
+      resumeTimer();
+    }
+  }, [clearFeedback, resolvePendingSelection, resumeTimer, status]);
 
   useEffect(() => {
     if (!feedback) {
       return undefined;
     }
 
+    pauseTimer();
+
     const timeoutId = window.setTimeout(() => {
       closeFeedback();
     }, FEEDBACK_MODAL_CONFIG.autoCloseMs);
 
     return () => window.clearTimeout(timeoutId);
-  }, [closeFeedback, feedback]);
+  }, [closeFeedback, feedback, pauseTimer]);
 
   return (
     <AnimatePresence>
