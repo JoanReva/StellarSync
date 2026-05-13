@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/howler": "^2.2.12",
     "framer-motion": "^12.38.0",
+    "howler": "^2.2.4",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "zustand": "^5.0.13"
@@ -38,5 +40,6 @@
     "typescript-eslint": "^8.59.2",
     "vite": "^8.0.12",
     "vitest": "^4.1.6"
-  }
+  },
+  "packageManager": "pnpm@10.33.0"
 }
