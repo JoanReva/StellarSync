@@ -3,10 +3,18 @@ import { Howl, Howler } from 'howler';
 import backgroundUrl from '../assets/audio/background.mp3';
 import correctUrl from '../assets/audio/correct.mp3';
 import incorrectUrl from '../assets/audio/incorrect.mp3';
+import loseUrl from '../assets/audio/lose.mp3';
 import tickingUrl from '../assets/audio/ticking.mp3';
+import winUrl from '../assets/audio/win.mp3';
 import { useSettingsStore } from '../store/useSettingsStore';
 
-export type SoundName = 'background' | 'correct' | 'incorrect' | 'ticking';
+export type SoundName =
+  | 'background'
+  | 'correct'
+  | 'incorrect'
+  | 'lose'
+  | 'ticking'
+  | 'win';
 
 type SoundConfig = {
   src: string;
@@ -28,10 +36,18 @@ const soundConfigs: Record<SoundName, SoundConfig> = {
     src: incorrectUrl,
     volume: 0.85,
   },
+  lose: {
+    src: loseUrl,
+    volume: 0.9,
+  },
   ticking: {
     src: tickingUrl,
     volume: 0.75,
     loop: true,
+  },
+  win: {
+    src: winUrl,
+    volume: 0.9,
   },
 };
 

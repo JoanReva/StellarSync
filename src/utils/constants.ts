@@ -3,7 +3,7 @@ export const CARD_SYMBOLS = ['star', 'moon', 'sun', 'comet'] as const;
 export const PAIRS_PER_SYMBOL = 2;
 export const TOTAL_CARDS = CARD_SYMBOLS.length * PAIRS_PER_SYMBOL;
 export const TOTAL_PAIRS = CARD_SYMBOLS.length;
-export const GAME_DURATION_SECONDS = 30;
+export const GAME_DURATION_SECONDS = 5;
 export const TICKING_THRESHOLD_SECONDS = 10;
 
 export const CARD_ANIMATION_CONFIG = {
@@ -33,5 +33,5 @@ export const BOARD_ANIMATION_CONFIG = {
 } as const;
 
 export const FEEDBACK_MODAL_CONFIG = {
-  autoCloseMs: 1500,
+  autoCloseMs: 1000,
 } as const;
