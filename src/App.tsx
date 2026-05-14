@@ -135,7 +135,8 @@ function App() {
     isBrowserLeaveConfirmedRef.current = true;
 
     if (pendingLeaveAction === 'back') {
-      window.history.go(-2);
+      setCurrentScreen('START'); // Navigate back to the Start screen
+      setPendingLeaveAction(null); // Close the modal
       return;
     }
 
