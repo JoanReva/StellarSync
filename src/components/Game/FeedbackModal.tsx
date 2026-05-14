@@ -5,8 +5,8 @@ import { useGameStore } from '../../store/useGameStore';
 import { FEEDBACK_MODAL_CONFIG } from '../../utils/constants';
 
 const feedbackText = {
-  match: "Nice! it's a match",
-  mismatch: 'Sorry, but this is not a match',
+  match: "nice! it's a match",
+  mismatch: 'sorry, but this is not a match',
 } as const;
 
 export const FeedbackModal = () => {
@@ -18,6 +18,10 @@ export const FeedbackModal = () => {
     (state) => state.resolvePendingSelection,
   );
   const clearFeedback = useGameStore((state) => state.clearFeedback);
+  const accentColor =
+    feedback?.type === 'match'
+      ? 'var(--color-modal-match-accent)'
+      : 'var(--color-modal-mismatch-accent)';
 
   const closeFeedback = useCallback(() => {
     resolvePendingSelection();
@@ -45,6 +49,7 @@ export const FeedbackModal = () => {
     <AnimatePresence>
       {feedback && (
         <Modal
+          accentColor={accentColor}
           isOpen
           labelledBy="feedback-modal-title"
           onClose={closeFeedback}

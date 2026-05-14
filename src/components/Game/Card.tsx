@@ -4,6 +4,7 @@ import moonUrl from '../../assets/cards/moon.svg';
 import starUrl from '../../assets/cards/star.svg';
 import sunUrl from '../../assets/cards/sun.svg';
 import type { CardSymbol, MemoryCard } from '../../store/useGameStore';
+import { useSettingsStore } from '../../store/useSettingsStore';
 import { CARD_ANIMATION_CONFIG, CARD_THEME_CONFIG } from '../../utils/constants';
 
 type CardProps = {
@@ -35,6 +36,9 @@ export const Card = ({
   isWaiting,
   onSelect,
 }: CardProps) => {
+  const isCardLabelEnabled = useSettingsStore(
+    (state) => state.isCardLabelEnabled,
+  );
   const isFaceUp = card.isFlipped || card.isMatched;
   const label = isFaceUp
     ? `${cardLabels[card.symbol]} card${card.isMatched ? ', matched' : ''}`
@@ -76,7 +80,6 @@ export const Card = ({
       }}
     >
       <span className="relative block h-full w-full [perspective:900px]">
-
         <motion.span
           className="absolute inset-0 block h-full w-full rounded-2xl [transform-style:preserve-3d]"
           // Flips the card from the blue back to the symbol face.
@@ -100,11 +103,15 @@ export const Card = ({
           </span>
 
           <span
-            className="absolute inset-0 flex items-center justify-center rounded-2xl border-4 shadow-xl [backface-visibility:hidden] [transform:rotateY(180deg)]"
+            className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl border-4 px-3 shadow-xl [backface-visibility:hidden] [transform:rotateY(180deg)]"
             style={{
               backfaceVisibility: 'hidden',
-              background: CARD_THEME_CONFIG.frontBackground,
-              borderColor: CARD_THEME_CONFIG.frontBorder,
+              background: card.isMatched
+                ? 'var(--color-card-matched-bg)'
+                : CARD_THEME_CONFIG.frontBackground,
+              borderColor: card.isMatched
+                ? 'var(--color-card-matched-border)'
+                : CARD_THEME_CONFIG.frontBorder,
               transform: 'rotateY(180deg)',
             }}
           >
@@ -115,6 +122,17 @@ export const Card = ({
               className="h-3/5 w-3/5 object-contain"
               draggable={false}
             />
+            {isCardLabelEnabled && (
+              <span
+                className="absolute bottom-0 w-full px-2 pb-1 text-center text-lg font-bold capitalize leading-none sm:pb-2 sm:text-xl"
+                style={{
+                  background: 'transparent',
+                  color: 'var(--color-card-label-text)',
+                }}
+              >
+                {cardLabels[card.symbol]}
+              </span>
+            )}
           </span>
         </motion.span>
 
@@ -122,7 +140,9 @@ export const Card = ({
           <motion.span
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 rounded-2xl"
-            style={{ boxShadow: `0 0 0 4px ${CARD_THEME_CONFIG.comparingRing}` }}
+            style={{
+              boxShadow: `0 0 0 4px ${CARD_THEME_CONFIG.comparingRing}, 0 0 22px ${CARD_THEME_CONFIG.comparingGlow}`,
+            }}
             // Pulsing ring marks the two cards currently being compared.
             animate={{ opacity: [0.35, 0.9, 0.35] }}
             transition={{

@@ -8,6 +8,17 @@
   :root {
     --color-card-blue: #1e40af;
     --color-card-yellow: #facc15;
+    --color-card-back-bg: var(--color-card-blue);
+    --color-card-back-text: var(--color-card-yellow);
+    --color-card-back-border: #ffffff;
+    --color-card-front-bg: #ffffff;
+    --color-card-front-border: var(--color-card-blue);
+    --color-card-comparing-ring: var(--color-card-yellow);
+    --color-card-comparing-glow: rgba(250, 204, 21, 0.5);
+    --color-card-waiting-overlay: rgba(255, 255, 255, 0.45);
+    --color-card-label-bg: rgba(255, 255, 255, 0.88);
+    --color-card-label-text: var(--color-text-main);
+    --color-card-label-ring: rgba(148, 163, 184, 0.45);
 
     --color-bg-main: #f8fafc;
     --color-bg-secondary: #e2e8f0;
@@ -29,6 +40,42 @@
     --color-timer-low-label: #64748b;
     --color-timer-low-ring: rgba(248, 113, 113, 0.22);
     --color-timer-low-shadow: rgba(248, 113, 113, 0.24);
+    --color-card-matched-border: var(--color-success);
+    --color-card-matched-bg: #f0fdf4;
+    --color-visual-match: rgba(34, 197, 94, 0.62);
+    --color-visual-mismatch: rgba(239, 68, 68, 0.62);
+    --color-modal-match-accent: rgba(34, 197, 94, 0.28);
+    --color-modal-mismatch-accent: rgba(239, 68, 68, 0.28);
+  }
+
+  :root[data-color-mode='colorblind'] {
+    --color-card-blue: #0072b2;
+    --color-card-yellow: #e69f00;
+    --color-card-back-bg: #005f73;
+    --color-card-back-text: #ffdd6e;
+    --color-card-back-border: #ffffff;
+    --color-card-front-bg: #ffffff;
+    --color-card-front-border: #0072b2;
+    --color-card-comparing-ring: #e69f00;
+    --color-card-comparing-glow: rgba(230, 159, 0, 0.45);
+    --color-card-waiting-overlay: rgba(255, 255, 255, 0.52);
+    --color-card-label-bg: rgba(255, 255, 255, 0.94);
+    --color-card-label-text: #083344;
+    --color-card-label-ring: rgba(0, 114, 178, 0.36);
+    --color-primary: #0072b2;
+    --color-primary-hover: #005f8f;
+    --color-success: #0072b2;
+    --color-error: #d55e00;
+    --color-timer-low-bg: #fff8eb;
+    --color-timer-low-text: #b45309;
+    --color-timer-low-ring: rgba(245, 158, 11, 0.25);
+    --color-timer-low-shadow: rgba(245, 158, 11, 0.24);
+    --color-card-matched-border: #009e73;
+    --color-card-matched-bg: #ecfdf5;
+    --color-visual-match: rgba(0, 114, 178, 0.58);
+    --color-visual-mismatch: rgba(213, 94, 0, 0.58);
+    --color-modal-match-accent: rgba(0, 114, 178, 0.3);
+    --color-modal-mismatch-accent: rgba(213, 94, 0, 0.3);
   }
 
   html {

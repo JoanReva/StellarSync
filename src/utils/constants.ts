@@ -22,13 +22,14 @@ export const CARD_ANIMATION_CONFIG = {
 } as const;
 
 export const CARD_THEME_CONFIG = {
-  backBackground: 'var(--color-card-blue)',
-  backText: 'var(--color-card-yellow)',
-  backBorder: '#ffffff',
-  frontBackground: '#ffffff',
-  frontBorder: 'var(--color-card-blue)',
-  comparingRing: 'var(--color-card-yellow)',
-  waitingOverlay: 'rgba(255, 255, 255, 0.45)',
+  backBackground: 'var(--color-card-back-bg)',
+  backText: 'var(--color-card-back-text)',
+  backBorder: 'var(--color-card-back-border)',
+  frontBackground: 'var(--color-card-front-bg)',
+  frontBorder: 'var(--color-card-front-border)',
+  comparingRing: 'var(--color-card-comparing-ring)',
+  comparingGlow: 'var(--color-card-comparing-glow)',
+  waitingOverlay: 'var(--color-card-waiting-overlay)',
 } as const;
 
 export const BOARD_ANIMATION_CONFIG = {

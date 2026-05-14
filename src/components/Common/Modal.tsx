@@ -2,6 +2,7 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
 type ModalProps = {
+  accentColor?: string;
   isOpen: boolean;
   children: ReactNode;
   labelledBy: string;
@@ -17,7 +18,13 @@ const focusableSelector = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(',');
 
-export const Modal = ({ isOpen, children, labelledBy, onClose }: ModalProps) => {
+export const Modal = ({
+  accentColor,
+  isOpen,
+  children,
+  labelledBy,
+  onClose,
+}: ModalProps) => {
   const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -92,6 +99,11 @@ export const Modal = ({ isOpen, children, labelledBy, onClose }: ModalProps) => 
         transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
         onKeyDown={handleKeyDown}
         className="w-full max-w-sm rounded-2xl bg-white px-6 py-7 text-center shadow-2xl outline-none ring-1 ring-slate-200"
+        style={{
+          boxShadow: accentColor
+            ? `0 24px 64px rgba(15, 23, 42, 0.2), 0 0 0 3px ${accentColor}, inset 0 0 18px ${accentColor}`
+            : undefined,
+        }}
       >
         {children}
       </motion.div>

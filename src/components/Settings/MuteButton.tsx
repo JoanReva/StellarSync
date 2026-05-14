@@ -12,7 +12,7 @@ export const MuteButton = () => {
       aria-label={isMuted ? 'Unmute sound' : 'Mute sound'}
       aria-pressed={isMuted}
       onClick={toggleMute}
-      className="absolute right-4 top-4 z-20 inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-[var(--color-text-main)] shadow-xl ring-2 ring-white/70 transition duration-200 hover:scale-105 hover:bg-[var(--color-bg-secondary)] focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)] focus:ring-offset-2 sm:right-5 sm:top-5"
+      className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-[var(--color-text-main)] shadow-xl ring-2 ring-white/70 transition duration-200 hover:scale-105 hover:bg-[var(--color-bg-secondary)] focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)] focus:ring-offset-2"
     >
       <img
         src={isMuted ? soundOffUrl : soundOnUrl}
