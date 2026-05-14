@@ -5,7 +5,7 @@ import {
   TIMER_TICK_MS,
   TOTAL_PAIRS,
 } from '../utils/constants';
-import { shuffle, type RandomSource } from '../utils/shuffle';
+import { shuffleUntilValid, type RandomSource } from '../utils/shuffle';
 
 export type CardSymbol = (typeof CARD_SYMBOLS)[number];
 
@@ -60,7 +60,9 @@ const createDeck = (randomSource?: RandomSource): MemoryCard[] => {
     })),
   );
 
-  return shuffle(deck, randomSource);
+  return shuffleUntilValid(deck, randomSource, {
+    getMatchKey: (card) => card.symbol,
+  });
 };
 
 const createInitialState = (): GameState => ({
