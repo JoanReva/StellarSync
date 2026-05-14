@@ -19,6 +19,7 @@ export const GameScreen = ({ onResolve }: GameScreenProps) => {
   useEffect(() => {
     if (isMuted || status !== 'playing') {
       stop('background');
+      stop('ticking');
       return undefined;
     }
 
@@ -26,8 +27,18 @@ export const GameScreen = ({ onResolve }: GameScreenProps) => {
 
     return () => {
       stop('background');
+      stop('ticking');
     };
   }, [isMuted, play, status, stop]);
+
+  useEffect(() => {
+    if (status === 'playing') {
+      return undefined;
+    }
+
+    stop('ticking');
+    return undefined;
+  }, [status, stop]);
 
   useEffect(() => {
     if (feedback?.type === 'match') {
