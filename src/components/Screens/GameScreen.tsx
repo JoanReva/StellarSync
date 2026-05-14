@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
-import { Board } from '../Game/Board';
-import { FeedbackModal } from '../Game/FeedbackModal';
-import { Timer } from '../Game/Timer';
-import { VisualFeedback } from '../Game/VisualFeedback';
-import { SettingsControls } from '../Settings/SettingsControls';
-import { useAudio } from '../../hooks/useAudio';
-import { useGameStore } from '../../store/useGameStore';
+import { useEffect, useRef } from "react";
+import { Board } from "../Game/Board";
+import { FeedbackModal } from "../Game/FeedbackModal";
+import { Timer } from "../Game/Timer";
+import { VisualFeedback } from "../Game/VisualFeedback";
+import { SettingsControls } from "../Settings/SettingsControls";
+import { useAudio } from "../../hooks/useAudio";
+import { useGameStore } from "../../store/useGameStore";
 
 type GameScreenProps = {
   onResolve: () => void;
@@ -20,30 +20,30 @@ export const GameScreen = ({ onResolve }: GameScreenProps) => {
   const { isMuted, play, stop } = useAudio();
 
   useEffect(() => {
-    if (isMuted || status !== 'playing') {
-      stop('background');
+    if (isMuted || status !== "playing") {
+      stop("background");
       return undefined;
     }
 
-    play('background');
+    play("background");
 
     return () => {
-      stop('background');
+      stop("background");
     };
   }, [isMuted, play, status, stop]);
 
   useEffect(() => {
-    if (feedback?.type === 'match') {
-      play('correct');
+    if (feedback?.type === "match") {
+      play("correct");
     }
 
-    if (feedback?.type === 'mismatch') {
-      play('incorrect');
+    if (feedback?.type === "mismatch") {
+      play("incorrect");
     }
   }, [feedback, play]);
 
   useEffect(() => {
-    if (status !== 'won' && status !== 'lost') {
+    if (status !== "won" && status !== "lost") {
       playedResultSoundRef.current = null;
       return undefined;
     }
@@ -53,14 +53,14 @@ export const GameScreen = ({ onResolve }: GameScreenProps) => {
     }
 
     playedResultSoundRef.current = status;
-    stop('ticking');
-    play(status === 'won' ? 'win' : 'lose');
+    stop("ticking");
+    play(status === "won" ? "win" : "lose");
 
     return undefined;
   }, [play, status, stop]);
 
   useEffect(() => {
-    if (status !== 'won' && status !== 'lost') {
+    if (status !== "won" && status !== "lost") {
       return undefined;
     }
 
