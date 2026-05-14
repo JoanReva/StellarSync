@@ -69,7 +69,7 @@ export const ResolveScreen = ({ status, onPlayAgain }: ResolveScreenProps) => {
                   filter: { duration: 0.8, delay: 0.15 },
                 }
           }
-          className="text-5xl font-bold text-[var(--color-text-main)] sm:text-6xl"
+          className="text-5xl font-bold text-white drop-shadow-md sm:text-6xl"
         >
           {didWin ? t('youDidIt') : t('oopsLost')}
         </motion.h1>

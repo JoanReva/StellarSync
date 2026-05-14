@@ -21,7 +21,7 @@
     --color-card-label-ring: rgba(148, 163, 184, 0.45);
 
     --color-bg-main: #f8fafc;
-    --color-screen-bg: var(--color-bg-main);
+    --color-screen-bg: transparent;
     --color-bg-secondary: #e2e8f0;
     --color-bg-secondary-hover: #cbd5e1;
 
@@ -191,6 +191,17 @@
 
   html {
     font-family: "Poppins", sans-serif;
+  }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; }
+    50% { opacity: 0.8; }
+  }
+
+  @keyframes shootingStar {
+    0% { transform: translateX(0) translateY(0); opacity: 1; }
+    10% { transform: translateX(100vw) translateY(100vh); opacity: 0; }
+    100% { opacity: 0; }
   }
 
   *,

@@ -6,6 +6,7 @@ import { ErrorBoundary } from "./components/Common/ErrorBoundary";
 import { GameScreen } from "./components/Screens/GameScreen";
 import { ResolveScreen } from "./components/Screens/ResolveScreen";
 import { ReloadConfirmationModal } from "./components/Game/ReloadConfirmationModal";
+import { StarryBackground } from "./components/Common/StarryBackground";
 import { usePreventPageUnload } from "./hooks/usePreventPageUnload";
 import { useGameStore } from "./store/useGameStore";
 import { useSettingsStore } from "./store/useSettingsStore";
@@ -144,9 +145,11 @@ function App() {
   }, [pendingLeaveAction]);
 
   return (
-    <ErrorBoundary>
-      <AnimatePresence mode="wait">
-        {currentScreen === "START" && (
+    <>
+      <StarryBackground />
+      <ErrorBoundary>
+        <AnimatePresence mode="wait">
+          {currentScreen === "START" && (
           <ScreenWrapper id="start-wrapper">
             <StartScreen onStart={handleStart} />
           </ScreenWrapper>
@@ -164,13 +167,14 @@ function App() {
           </ScreenWrapper>
         )}
       </AnimatePresence>
-      <ReloadConfirmationModal
-        action={pendingLeaveAction ?? "reload"}
-        isOpen={isGameInProgress && pendingLeaveAction !== null}
-        onCancel={handleCancelLeave}
-        onConfirm={handleConfirmLeave}
-      />
-    </ErrorBoundary>
+        <ReloadConfirmationModal
+          action={pendingLeaveAction ?? "reload"}
+          isOpen={isGameInProgress && pendingLeaveAction !== null}
+          onCancel={handleCancelLeave}
+          onConfirm={handleConfirmLeave}
+        />
+      </ErrorBoundary>
+    </>
   );
 }
 

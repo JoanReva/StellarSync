@@ -55,7 +55,7 @@ export const StartScreen = ({ onStart }: StartScreenProps) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { duration: 2 } }}
         >
-          <h1 className="text-center text-5xl font-bold sm:text-6xl md:text-7xl">
+          <h1 className="text-center text-5xl font-bold text-white drop-shadow-md sm:text-6xl md:text-7xl">
             {t("stellarSync")}
           </h1>
         </motion.div>
