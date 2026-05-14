@@ -8,7 +8,7 @@ export const GAME_RULES = {
 } as const;
 
 export const SCOREBOARD = {
-  limit: 5,
+  limit: 25,
   playerNameMaxLength: 15,
   tableName: "leaderboard",
 } as const;

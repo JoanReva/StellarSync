@@ -5,6 +5,7 @@ type ModalProps = {
   accentColor?: string;
   isOpen: boolean;
   children: ReactNode;
+  className?: string;
   labelledBy: string;
   onClose?: () => void;
   shouldCloseOnDialogPointerDown?: boolean;
@@ -23,6 +24,7 @@ export const Modal = ({
   accentColor,
   isOpen,
   children,
+  className = '',
   labelledBy,
   onClose,
   shouldCloseOnDialogPointerDown = true,
@@ -45,11 +47,7 @@ export const Modal = ({
   }, [isOpen]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (
-      event.key === 'Escape' ||
-      event.key === ' ' ||
-      event.key === 'Spacebar'
-    ) {
+    if (event.key === 'Escape') {
       event.preventDefault();
       onClose?.();
       return;
@@ -124,7 +122,7 @@ export const Modal = ({
         transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
         onKeyDown={handleKeyDown}
         onPointerDown={handleDialogPointerDown}
-        className="w-full max-w-sm rounded-2xl bg-[var(--color-modal-bg)] px-6 py-7 text-center shadow-[var(--shadow-modal)] outline-none ring-1 ring-[var(--color-modal-ring)]"
+        className={`w-full max-w-sm rounded-2xl bg-[var(--color-modal-bg)] px-6 py-7 text-center shadow-[var(--shadow-modal)] outline-none ring-1 ring-[var(--color-modal-ring)] ${className}`}
         style={{
           boxShadow: accentColor
             ? `var(--shadow-modal-base), 0 0 0 3px ${accentColor}, inset 0 0 18px ${accentColor}`
