@@ -7,6 +7,7 @@ type ModalProps = {
   children: ReactNode;
   labelledBy: string;
   onClose?: () => void;
+  shouldCloseOnDialogPointerDown?: boolean;
 };
 
 const focusableSelector = [
@@ -24,6 +25,7 @@ export const Modal = ({
   children,
   labelledBy,
   onClose,
+  shouldCloseOnDialogPointerDown = true,
 }: ModalProps) => {
   const dialogRef = useRef<HTMLDivElement>(null);
 
@@ -94,6 +96,17 @@ export const Modal = ({
     onClose?.();
   };
 
+  const handleDialogPointerDown = (
+    event: React.PointerEvent<HTMLDivElement>,
+  ) => {
+    if (shouldCloseOnDialogPointerDown) {
+      onClose?.();
+      return;
+    }
+
+    event.stopPropagation();
+  };
+
   return (
     <div
       className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/35 px-4"
@@ -110,7 +123,7 @@ export const Modal = ({
         exit={{ opacity: 0, scale: 0.96, y: 8 }}
         transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
         onKeyDown={handleKeyDown}
-        onPointerDown={handlePointerDown}
+        onPointerDown={handleDialogPointerDown}
         className="w-full max-w-sm rounded-2xl bg-white px-6 py-7 text-center shadow-2xl outline-none ring-1 ring-slate-200"
         style={{
           boxShadow: accentColor
