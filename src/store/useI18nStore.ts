@@ -1,7 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { createLocalJSONStorage, STORAGE_KEYS } from './storage';
 
-type Language = 'en' | 'es';
+export type Language = 'en' | 'es';
+
+const DEFAULT_LANGUAGE: Language = 'en';
+
+const isLanguage = (value: unknown): value is Language =>
+  value === 'en' || value === 'es';
 
 const translations = {
   en: {
@@ -27,6 +33,9 @@ const translations = {
     muteSound: 'Mute sound',
     oopsError: 'Oops! Something went wrong.',
     restartGame: 'Restart Game',
+    memoryCards: 'Memory cards',
+    toggleLanguage: 'Toggle language',
+    gameLogo: 'Game logo',
     stellarSync: 'StellarSync',
     symbol_star: 'Star',
     symbol_moon: 'Moon',
@@ -38,27 +47,30 @@ const translations = {
   },
   es: {
     start: 'Comenzar',
-    leaveMatch: '¿Abandonar esta partida?',
-    goBackBody: 'Tu progreso actual se perderá si regresas.',
+    leaveMatch: '\u00bfAbandonar esta partida?',
+    goBackBody: 'Tu progreso actual se perder\u00e1 si regresas.',
     goBackLabel: 'Regresar',
-    reloadBody: 'Tu progreso actual se perderá si recargas la página.',
+    reloadBody: 'Tu progreso actual se perder\u00e1 si recargas la p\u00e1gina.',
     reloadLabel: 'Recargar',
     keepPlaying: 'Seguir jugando',
     remainingTimeAria: 'Tiempo restante: {time} segundos',
     remainingTime: 'Tiempo restante',
-    youDidIt: '¡Lo lograste!',
+    youDidIt: '\u00a1Lo lograste!',
     oopsLost: 'Uy, no los encontraste todos',
     playAgain: 'Jugar de nuevo',
-    match: '¡Genial! Es un par',
+    match: '\u00a1Genial! Es un par',
     mismatch: 'Lo siento, no es un par',
     accessibilitySettings: 'Ajustes de accesibilidad',
-    colorSafeMode: 'Modo daltónico',
-    visualCues: 'Señales visuales',
+    colorSafeMode: 'Modo dalt\u00f3nico',
+    visualCues: 'Se\u00f1ales visuales',
     cardLabels: 'Etiquetas de cartas',
     unmuteSound: 'Activar sonido',
     muteSound: 'Silenciar sonido',
-    oopsError: '¡Uy! Algo salió mal.',
+    oopsError: '\u00a1Uy! Algo sali\u00f3 mal.',
     restartGame: 'Reiniciar juego',
+    memoryCards: 'Cartas de memoria',
+    toggleLanguage: 'Cambiar idioma',
+    gameLogo: 'Logo del juego',
     stellarSync: 'StellarSync',
     symbol_star: 'Estrella',
     symbol_moon: 'Luna',
@@ -70,37 +82,67 @@ const translations = {
   },
 };
 
-type TranslationKey = keyof typeof translations.en;
+export type TranslationKey = keyof typeof translations.en;
+type TranslationParams = Record<string, string | number>;
 
 interface I18nStore {
   language: Language;
   setLanguage: (lang: Language) => void;
 }
 
+type PersistedI18nState = Pick<I18nStore, 'language'>;
+
 export const useI18nStore = create<I18nStore>()(
   persist(
     (set) => ({
-      language: 'en',
-      setLanguage: (language) => set({ language }),
+      language: DEFAULT_LANGUAGE,
+      setLanguage: (language) =>
+        set({ language: isLanguage(language) ? language : DEFAULT_LANGUAGE }),
     }),
     {
-      name: 'i18n-storage',
-    }
-  )
+      name: STORAGE_KEYS.i18n,
+      storage: createLocalJSONStorage<PersistedI18nState>(),
+      partialize: (state) => ({ language: state.language }),
+      merge: (persistedState, currentState) => {
+        const persistedLanguage =
+          persistedState &&
+          typeof persistedState === 'object' &&
+          'language' in persistedState
+            ? persistedState.language
+            : undefined;
+
+        return {
+          ...currentState,
+          language: isLanguage(persistedLanguage)
+            ? persistedLanguage
+            : currentState.language,
+        };
+      },
+    },
+  ),
 );
+
+export const translate = (
+  language: Language,
+  key: TranslationKey,
+  params?: TranslationParams,
+) => {
+  let text = translations[language][key];
+
+  if (params) {
+    Object.entries(params).forEach(([k, v]) => {
+      text = text.replace(`{${k}}`, String(v));
+    });
+  }
+
+  return text;
+};
 
 export const useTranslation = () => {
   const language = useI18nStore((state) => state.language);
 
-  const t = (key: TranslationKey, params?: Record<string, string | number>) => {
-    let text = translations[language][key];
-    if (params) {
-      Object.entries(params).forEach(([k, v]) => {
-        text = text.replace(`{${k}}`, String(v));
-      });
-    }
-    return text;
-  };
+  const t = (key: TranslationKey, params?: TranslationParams) =>
+    translate(language, key, params);
 
   return { t, language };
 };

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
+import { createLocalJSONStorage, STORAGE_KEYS } from './storage';
 
 type SettingsState = {
   isColorBlindModeEnabled: boolean;
@@ -17,6 +18,7 @@ type SettingsActions = {
 };
 
 export type SettingsStore = SettingsState & SettingsActions;
+type PersistedSettingsState = SettingsState;
 
 export const useSettingsStore = create<SettingsStore>()(
   persist(
@@ -41,8 +43,8 @@ export const useSettingsStore = create<SettingsStore>()(
         })),
     }),
     {
-      name: 'stellarsync-settings',
-      storage: createJSONStorage(() => localStorage),
+      name: STORAGE_KEYS.settings,
+      storage: createLocalJSONStorage<PersistedSettingsState>(),
       partialize: (state) => ({
         isColorBlindModeEnabled: state.isColorBlindModeEnabled,
         isCardLabelEnabled: state.isCardLabelEnabled,
