@@ -16,7 +16,7 @@ export const StartScreen = ({ onStart }: StartScreenProps) => {
   }, []);
 
   const handleStart = () => {
-    play('correct'); // Play the start sound
+    play('start');
     onStart();
   };
 

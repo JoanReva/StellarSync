@@ -4,6 +4,7 @@ import backgroundUrl from '../assets/audio/background.mp3';
 import correctUrl from '../assets/audio/correct.mp3';
 import incorrectUrl from '../assets/audio/incorrect.mp3';
 import loseUrl from '../assets/audio/lose.mp3';
+import startUrl from '../assets/audio/start.mp3';
 import tickingUrl from '../assets/audio/ticking.mp3';
 import winUrl from '../assets/audio/win.mp3';
 import { useSettingsStore } from '../store/useSettingsStore';
@@ -13,6 +14,7 @@ export type SoundName =
   | 'correct'
   | 'incorrect'
   | 'lose'
+  | 'start'
   | 'ticking'
   | 'win';
 
@@ -40,6 +42,10 @@ const soundConfigs: Record<SoundName, SoundConfig> = {
     src: loseUrl,
     volume: 0.9,
   },
+  start: {
+    src: startUrl,
+    volume: 1,
+  },
   ticking: {
     src: tickingUrl,
     volume: 0.75,
@@ -49,6 +55,7 @@ const soundConfigs: Record<SoundName, SoundConfig> = {
     src: winUrl,
     volume: 0.9,
   },
+
 };
 
 let sounds: Record<SoundName, Howl> | null = null;
