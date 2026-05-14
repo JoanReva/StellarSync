@@ -93,6 +93,14 @@
     --color-scoreboard-saved-bg: #dcfce7;
     --color-scoreboard-saved-text: #166534;
 
+    --color-logo-glow: rgba(219, 39, 119, 0.4);
+    --color-logo-grad-start: #9333ea;
+    --color-logo-grad-mid: #ec4899;
+    --color-logo-grad-end: #06b6d4;
+    --color-subtitle-grad-start: #22d3ee;
+    --color-subtitle-grad-mid: #c084fc;
+    --color-subtitle-grad-end: #f472b6;
+
     --shadow-control:
       0 20px 25px -5px rgba(15, 23, 42, 0.1),
       0 8px 10px -6px rgba(15, 23, 42, 0.1);
@@ -176,6 +184,14 @@
     --color-scoreboard-current-text: #047857;
     --color-scoreboard-saved-bg: #ecfdf5;
     --color-scoreboard-saved-text: #047857;
+
+    --color-logo-glow: rgba(230, 159, 0, 0.4);
+    --color-logo-grad-start: #0072b2;
+    --color-logo-grad-mid: #e69f00;
+    --color-logo-grad-end: #009e73;
+    --color-subtitle-grad-start: #56b4e9;
+    --color-subtitle-grad-mid: #0072b2;
+    --color-subtitle-grad-end: #e69f00;
 
     --filter-resolve-win-rest: saturate(0.85)
       drop-shadow(0 0 0 rgba(230, 159, 0, 0));

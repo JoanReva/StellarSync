@@ -38,26 +38,34 @@ export const StartScreen = ({ onStart }: StartScreenProps) => {
         showMute={false}
       />
 
-      <div className="flex w-full max-w-sm flex-col items-center gap-10 px-6 py-8">
+      <div className="flex w-full max-w-sm flex-col items-center gap-8 px-6 py-8 sm:gap-10">
         <motion.div
           initial={{ y: "-100vh", opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ type: "spring", damping: 20, stiffness: 100 }}
         >
-          <img
-            src="/logo.svg"
-            alt={t("gameLogo")}
-            className="h-auto max-h-40 w-48 object-contain md:max-h-48 md:w-52"
-          />
+          <div className="rounded-full bg-gradient-to-tr from-logo-grad-start via-logo-grad-mid to-logo-grad-end p-1.5 shadow-logo-glow">
+            <div className="flex h-36 w-36 items-center justify-center rounded-full bg-white p-5 md:h-44 md:w-44 md:p-6">
+              <img
+                src="/logo.svg"
+                alt={t("gameLogo")}
+                className="h-full w-full object-contain"
+              />
+            </div>
+          </div>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, transition: { duration: 2 } }}
+          className="flex flex-col items-center"
         >
           <h1 className="text-center text-5xl font-bold text-white drop-shadow-md sm:text-6xl md:text-7xl">
             {t("stellarSync")}
           </h1>
+          <p className="mt-3 text-center text-lg font-bold uppercase tracking-[0.25em] text-transparent bg-clip-text bg-gradient-to-r from-subtitle-grad-start via-subtitle-grad-mid to-subtitle-grad-end drop-shadow-sm sm:text-xl">
+            {t("memorySubtitle")}
+          </p>
         </motion.div>
 
         <motion.div
