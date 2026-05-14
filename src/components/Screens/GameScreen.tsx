@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Board } from '../Game/Board';
 import { FeedbackModal } from '../Game/FeedbackModal';
 import { Timer } from '../Game/Timer';
@@ -14,6 +14,7 @@ type GameScreenProps = {
 const RESOLVE_SCREEN_DELAY_MS = 450;
 
 export const GameScreen = ({ onResolve }: GameScreenProps) => {
+  const playedResultSoundRef = useRef<string | null>(null);
   const feedback = useGameStore((state) => state.feedback);
   const status = useGameStore((state) => state.status);
   const { isMuted, play, stop } = useAudio();
@@ -40,6 +41,23 @@ export const GameScreen = ({ onResolve }: GameScreenProps) => {
       play('incorrect');
     }
   }, [feedback, play]);
+
+  useEffect(() => {
+    if (status !== 'won' && status !== 'lost') {
+      playedResultSoundRef.current = null;
+      return undefined;
+    }
+
+    if (playedResultSoundRef.current === status) {
+      return undefined;
+    }
+
+    playedResultSoundRef.current = status;
+    stop('ticking');
+    play(status === 'won' ? 'win' : 'lose');
+
+    return undefined;
+  }, [play, status, stop]);
 
   useEffect(() => {
     if (status !== 'won' && status !== 'lost') {

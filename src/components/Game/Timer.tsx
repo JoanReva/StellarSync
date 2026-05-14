@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useAudio } from '../../hooks/useAudio';
 import { useTranslation } from '../../store/useI18nStore';
@@ -18,7 +18,13 @@ const TIMER_MOTION = {
   normalBoxShadow: 'var(--shadow-timer-normal)',
 } as const;
 
+const isPageActive = () => {
+  return document.visibilityState === 'visible' && document.hasFocus();
+};
+
 export const Timer = () => {
+  const lastTickAtRef = useRef<number | null>(null);
+  const [isTickingAudible, setIsTickingAudible] = useState(isPageActive);
   const timeRemaining = useGameStore((state) => state.timeRemaining);
   const isTimerPaused = useGameStore((state) => state.isTimerPaused);
   const status = useGameStore((state) => state.status);
@@ -28,21 +34,54 @@ export const Timer = () => {
   const isLowTime =
     status === 'playing' &&
     !isTimerPaused &&
+    isTickingAudible &&
     timeRemaining > 0 &&
     timeRemaining <= GAME_RULES.lowTimeThresholdMs;
   const formattedTimeRemaining = (timeRemaining / 1000).toFixed(1);
 
   useEffect(() => {
     if (status !== 'playing' || isTimerPaused) {
+      lastTickAtRef.current = null;
       return undefined;
     }
 
+    lastTickAtRef.current = Date.now();
+
     const intervalId = window.setInterval(() => {
-      tickTimer();
+      const now = Date.now();
+      const lastTickAt = lastTickAtRef.current ?? now;
+
+      tickTimer(now - lastTickAt);
+      lastTickAtRef.current = now;
     }, GAME_RULES.timerTickMs);
 
-    return () => window.clearInterval(intervalId);
+    return () => {
+      window.clearInterval(intervalId);
+      lastTickAtRef.current = null;
+    };
   }, [isTimerPaused, status, tickTimer]);
+
+  useEffect(() => {
+    const updateTickingAudibility = () => {
+      const isActive = isPageActive();
+
+      setIsTickingAudible(isActive);
+
+      if (!isActive) {
+        stop('ticking');
+      }
+    };
+
+    document.addEventListener('visibilitychange', updateTickingAudibility);
+    window.addEventListener('blur', updateTickingAudibility);
+    window.addEventListener('focus', updateTickingAudibility);
+
+    return () => {
+      document.removeEventListener('visibilitychange', updateTickingAudibility);
+      window.removeEventListener('blur', updateTickingAudibility);
+      window.removeEventListener('focus', updateTickingAudibility);
+    };
+  }, [stop]);
 
   useEffect(() => {
     if (isLowTime) {

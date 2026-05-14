@@ -36,7 +36,7 @@ type GameActions = {
   selectCard: (cardId: string) => void;
   resolvePendingSelection: () => void;
   clearFeedback: () => void;
-  tickTimer: () => void;
+  tickTimer: (elapsedMs?: number) => void;
   pauseTimer: () => void;
   resumeTimer: () => void;
   loseGame: () => void;
@@ -199,16 +199,13 @@ export const useGameStore = create<GameStore>((set) => ({
     set({ feedback: null });
   },
 
-  tickTimer: () => {
+  tickTimer: (elapsedMs = GAME_RULES.timerTickMs) => {
     set((state) => {
       if (state.status !== 'playing' || state.isTimerPaused) {
         return state;
       }
 
-      const nextTimeRemaining = Math.max(
-        state.timeRemaining - GAME_RULES.timerTickMs,
-        0,
-      );
+      const nextTimeRemaining = Math.max(state.timeRemaining - elapsedMs, 0);
 
       if (nextTimeRemaining === 0) {
         return {

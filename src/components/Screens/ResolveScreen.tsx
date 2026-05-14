@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../Common/Button';
 import { Confetti } from '../Game/Confetti';
-import { useAudio } from '../../hooks/useAudio';
 import type { GameStatus } from '../../store/useGameStore';
 import { useTranslation } from '../../store/useI18nStore';
 
@@ -14,22 +13,11 @@ type ResolveScreenProps = {
 export const ResolveScreen = ({ status, onPlayAgain }: ResolveScreenProps) => {
   const playAgainButtonRef = useRef<HTMLButtonElement>(null);
   const didWin = status === 'won';
-  const { play, stop } = useAudio();
   const { t } = useTranslation();
 
   useEffect(() => {
     playAgainButtonRef.current?.focus();
   }, []);
-
-  useEffect(() => {
-    const soundName = didWin ? 'win' : 'lose';
-
-    play(soundName);
-
-    return () => {
-      stop(soundName);
-    };
-  }, [didWin, play, stop]);
 
   return (
     <div className="flex w-full max-w-xl flex-col items-center gap-8 px-6 text-center">
