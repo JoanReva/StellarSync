@@ -24,10 +24,10 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="flex flex-col items-center justify-center h-screen bg-slate-900 text-white">
+        <div className="flex h-screen flex-col items-center justify-center bg-[var(--color-error-boundary-bg)] text-[var(--color-error-boundary-text)]">
           <h1 className="text-3xl font-bold mb-4">Oops! Something went wrong.</h1>
           <button 
-            className="px-6 py-2 bg-blue-600 rounded-lg hover:bg-blue-500 transition-colors"
+            className="rounded-lg bg-[var(--color-primary)] px-6 py-2 transition-colors hover:bg-[var(--color-primary-hover)]"
             onClick={() => window.location.reload()}
           >
             Restart Game

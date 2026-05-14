@@ -15,12 +15,12 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   ...props
 }, ref) => {
   
-  const baseStyles = "inline-flex items-center justify-center font-bold rounded-full shadow-lg focus:outline-none focus:ring-4 focus:ring-opacity-50 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "inline-flex items-center justify-center font-bold rounded-full shadow-[var(--shadow-control)] focus:outline-none focus:ring-4 focus:ring-opacity-50 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed";
 
   const variants = {
-    primary: "bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white focus:ring-[var(--color-primary)]",
-    secondary: "bg-[var(--color-bg-secondary)] hover:bg-slate-300 text-[var(--color-text-main)] focus:ring-slate-400 shadow-md",
-    danger: "bg-[var(--color-error)] hover:bg-red-600 text-white focus:ring-[var(--color-error)]",
+    primary: "bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-[var(--color-primary-text)] focus:ring-[var(--color-primary)]",
+    secondary: "bg-[var(--color-bg-secondary)] hover:bg-[var(--color-bg-secondary-hover)] text-[var(--color-text-main)] focus:ring-[var(--color-bg-secondary-hover)]",
+    danger: "bg-[var(--color-error)] hover:bg-[var(--color-error-hover)] text-[var(--color-primary-text)] focus:ring-[var(--color-error)]",
   };
 
   const sizes = {

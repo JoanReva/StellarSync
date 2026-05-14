@@ -79,7 +79,9 @@ export const Timer = () => {
       <span
         className="text-sm font-semibold uppercase tracking-wide"
         style={{
-          color: 'var(--color-timer-label)',
+          color: isLowTime
+            ? 'var(--color-timer-low-label)'
+            : 'var(--color-timer-label)',
         }}
       >
         Remaining time

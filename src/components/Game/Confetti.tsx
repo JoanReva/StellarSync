@@ -6,6 +6,21 @@ type ConfettiProps = {
   variant?: 'win' | 'lose';
 };
 
+const getCssVariable = (name: string) =>
+  getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+const confettiColorVariables = {
+  lose: '--confetti-lose-colors',
+  win: '--confetti-win-colors',
+} as const;
+
+const getConfettiColors = (variant: 'win' | 'lose') => {
+  return getCssVariable(confettiColorVariables[variant])
+    .split(',')
+    .map((color) => color.trim())
+    .filter(Boolean);
+};
+
 export const Confetti = ({ isActive, variant = 'win' }: ConfettiProps) => {
   useEffect(() => {
     if (!isActive) {
@@ -13,7 +28,7 @@ export const Confetti = ({ isActive, variant = 'win' }: ConfettiProps) => {
     }
 
     if (variant === 'lose') {
-      const colors = ['#94a3b8', '#64748b', '#cbd5e1', '#38bdf8', '#f9a8d4'];
+      const colors = getConfettiColors('lose');
       const intervalId = window.setInterval(() => {
         confetti({
           colors,
@@ -69,16 +84,7 @@ export const Confetti = ({ isActive, variant = 'win' }: ConfettiProps) => {
       };
     }
 
-    const colors = [
-      '#3b82f6',
-      '#facc15',
-      '#22c55e',
-      '#ec4899',
-      '#a855f7',
-      '#06b6d4',
-      '#fb7185',
-      '#ffffff',
-    ];
+    const colors = getConfettiColors('win');
     const defaults = {
       colors,
       disableForReducedMotion: true,

@@ -91,7 +91,7 @@ export const Card = ({
           style={{ transformStyle: 'preserve-3d' }}
         >
           <span
-            className="absolute inset-0 flex items-center justify-center rounded-2xl border-4 text-5xl font-bold shadow-xl [backface-visibility:hidden] md:text-6xl"
+            className="absolute inset-0 flex items-center justify-center rounded-2xl border-4 text-5xl font-bold shadow-[var(--shadow-card)] [backface-visibility:hidden] md:text-6xl"
             style={{
               backfaceVisibility: 'hidden',
               background: CARD_THEME_CONFIG.backBackground,
@@ -103,7 +103,7 @@ export const Card = ({
           </span>
 
           <span
-            className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl border-4 px-3 shadow-xl [backface-visibility:hidden] [transform:rotateY(180deg)]"
+            className="absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-2xl border-4 px-3 shadow-[var(--shadow-card)] [backface-visibility:hidden] [transform:rotateY(180deg)]"
             style={{
               backfaceVisibility: 'hidden',
               background: card.isMatched
@@ -126,8 +126,9 @@ export const Card = ({
               <span
                 className="absolute bottom-0 w-full px-2 pb-1 text-center text-lg font-bold capitalize leading-none sm:pb-2 sm:text-xl"
                 style={{
-                  background: 'transparent',
+                  background: 'var(--color-card-label-bg)',
                   color: 'var(--color-card-label-text)',
+                  boxShadow: 'inset 0 1px 0 var(--color-card-label-ring)',
                 }}
               >
                 {cardLabels[card.symbol]}

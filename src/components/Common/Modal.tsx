@@ -109,7 +109,7 @@ export const Modal = ({
 
   return (
     <div
-      className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/35 px-4"
+      className="fixed inset-0 z-30 flex items-center justify-center bg-[var(--color-modal-overlay)] px-4"
       onPointerDown={handlePointerDown}
     >
       <motion.div
@@ -124,10 +124,10 @@ export const Modal = ({
         transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
         onKeyDown={handleKeyDown}
         onPointerDown={handleDialogPointerDown}
-        className="w-full max-w-sm rounded-2xl bg-white px-6 py-7 text-center shadow-2xl outline-none ring-1 ring-slate-200"
+        className="w-full max-w-sm rounded-2xl bg-[var(--color-modal-bg)] px-6 py-7 text-center shadow-[var(--shadow-modal)] outline-none ring-1 ring-[var(--color-modal-ring)]"
         style={{
           boxShadow: accentColor
-            ? `0 24px 64px rgba(15, 23, 42, 0.2), 0 0 0 3px ${accentColor}, inset 0 0 18px ${accentColor}`
+            ? `var(--shadow-modal-base), 0 0 0 3px ${accentColor}, inset 0 0 18px ${accentColor}`
             : undefined,
         }}
       >

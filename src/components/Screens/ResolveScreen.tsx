@@ -42,9 +42,9 @@ export const ResolveScreen = ({ status, onPlayAgain }: ResolveScreenProps) => {
                 y: 0,
                 scale: [0.92, 1.08, 1],
                 filter: [
-                  'saturate(0.8) drop-shadow(0 0 0 rgba(250, 204, 21, 0))',
-                  'saturate(1.5) drop-shadow(0 0 18px rgba(250, 204, 21, 0.75))',
-                  'saturate(1.1) drop-shadow(0 0 8px rgba(59, 130, 246, 0.35))',
+                  'var(--filter-resolve-win-rest)',
+                  'var(--filter-resolve-win-burst)',
+                  'var(--filter-resolve-win-settle)',
                 ],
               }
             : {

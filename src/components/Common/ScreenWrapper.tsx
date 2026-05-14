@@ -12,7 +12,7 @@ export const ScreenWrapper = ({ children, id }: ScreenWrapperProps) => {
       key={id}      
       initial={{ opacity: 1 }} 
       exit={{ opacity: 0, transition: { duration: 0.5 } }}
-      className="min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 relative overflow-hidden"
+      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-[var(--color-screen-bg)]"
     >
       {children}
     </motion.div>

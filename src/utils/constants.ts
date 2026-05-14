@@ -46,9 +46,9 @@ export const TIMER_ANIMATION_CONFIG = {
   lowTimeDurationSeconds: 0.75,
   normalDurationSeconds: 0.2,
   lowTimeBoxShadow: [
-    '0 12px 28px rgba(15, 23, 42, 0.16)',
+    'var(--shadow-timer-normal)',
     '0 14px 30px var(--color-timer-low-shadow)',
-    '0 12px 28px rgba(15, 23, 42, 0.16)',
+    'var(--shadow-timer-normal)',
   ],
-  normalBoxShadow: '0 12px 28px rgba(15, 23, 42, 0.16)',
+  normalBoxShadow: 'var(--shadow-timer-normal)',
 } as const;
