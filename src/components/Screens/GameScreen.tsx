@@ -72,7 +72,7 @@ export const GameScreen = ({ onResolve }: GameScreenProps) => {
   }, [onResolve, status]);
 
   return (
-    <div className="relative flex min-h-screen w-full items-center justify-center px-4 py-20 sm:py-24">
+    <div className="relative flex min-h-screen w-full items-center justify-center px-3 py-16 sm:px-4 sm:py-24">
       <Timer />
       <SettingsControls />
       <Board />

@@ -98,7 +98,7 @@ export const Timer = () => {
       role="timer"
       aria-live={isLowTime ? 'assertive' : 'polite'}
       aria-label={t('remainingTimeAria', { time: formattedTimeRemaining })}
-      className="absolute left-4 top-4 z-20 flex items-baseline gap-2 rounded-full px-5 py-3 ring-2 sm:left-5 sm:top-5"
+      className="absolute left-3 top-3 z-20 flex flex-col items-center gap-0.5 rounded-2xl px-4 py-2 text-center ring-2 sm:left-5 sm:top-5 sm:flex-row sm:items-baseline sm:gap-2 sm:rounded-full sm:px-5 sm:py-3 sm:text-left"
       animate={
         isLowTime
           ? {
@@ -127,7 +127,7 @@ export const Timer = () => {
       }}
     >
       <span
-        className="text-sm font-semibold uppercase tracking-wide"
+        className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] leading-none sm:text-sm sm:tracking-wide"
         style={{
           color: isLowTime
             ? 'var(--color-timer-low-label)'
@@ -137,7 +137,7 @@ export const Timer = () => {
         {t('remainingTime')}
       </span>
       <motion.span
-        className="text-2xl font-bold tabular-nums"
+        className="text-xl font-bold tabular-nums leading-none sm:text-2xl"
         animate={
           isLowTime
             ? {
