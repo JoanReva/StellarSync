@@ -6,3 +6,9 @@ export const GAME_RULES = {
   timerTickMs: 100,
   lowTimeThresholdMs: 10000,
 } as const;
+
+export const SCOREBOARD = {
+  limit: 5,
+  playerNameMaxLength: 15,
+  tableName: "leaderboard",
+} as const;

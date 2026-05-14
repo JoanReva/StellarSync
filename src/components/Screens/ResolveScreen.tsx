@@ -2,7 +2,8 @@ import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../Common/Button';
 import { Confetti } from '../Game/Confetti';
-import type { GameStatus } from '../../store/useGameStore';
+import { Scoreboard } from '../Game/Scoreboard';
+import { type GameStatus, useGameStore } from '../../store/useGameStore';
 import { useTranslation } from '../../store/useI18nStore';
 
 type ResolveScreenProps = {
@@ -14,13 +15,14 @@ export const ResolveScreen = ({ status, onPlayAgain }: ResolveScreenProps) => {
   const playAgainButtonRef = useRef<HTMLButtonElement>(null);
   const didWin = status === 'won';
   const { t } = useTranslation();
+  const timeRemaining = useGameStore((state) => state.timeRemaining);
 
   useEffect(() => {
     playAgainButtonRef.current?.focus();
   }, []);
 
   return (
-    <div className="flex w-full max-w-xl flex-col items-center gap-8 px-6 text-center">
+    <div className="flex w-full max-w-xl flex-col items-center gap-8 px-6 py-8 text-center">
       <Confetti isActive variant={didWin ? 'win' : 'lose'} />
 
       <motion.h1
@@ -73,6 +75,22 @@ export const ResolveScreen = ({ status, onPlayAgain }: ResolveScreenProps) => {
           {t('playAgain')}
         </Button>
       </motion.div>
+
+      {didWin && (
+        <motion.div
+          className="w-full"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            type: 'spring',
+            stiffness: 180,
+            damping: 18,
+            delay: 0.25,
+          }}
+        >
+          <Scoreboard timeRemainingMs={timeRemaining} />
+        </motion.div>
+      )}
     </div>
   );
 };

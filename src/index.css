@@ -59,6 +59,15 @@
     --color-modal-overlay: rgba(15, 23, 42, 0.35);
     --color-modal-bg: var(--color-surface);
     --color-modal-ring: var(--color-panel-ring);
+    --color-scoreboard-bg: var(--color-surface);
+    --color-scoreboard-ring: var(--color-panel-ring);
+    --color-scoreboard-row-bg: #f8fafc;
+    --color-scoreboard-row-ring: rgba(148, 163, 184, 0.22);
+    --color-scoreboard-input-bg: #ffffff;
+    --color-scoreboard-input-border: #cbd5e1;
+    --color-scoreboard-input-focus: rgba(59, 130, 246, 0.2);
+    --color-scoreboard-notice-bg: #eff6ff;
+    --color-scoreboard-notice-text: #1d4ed8;
 
     --shadow-control: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.1);
     --shadow-panel: 0 25px 50px -12px rgba(15, 23, 42, 0.25);
@@ -107,6 +116,12 @@
     --color-visual-mismatch: rgba(213, 94, 0, 0.58);
     --color-modal-match-accent: rgba(0, 114, 178, 0.3);
     --color-modal-mismatch-accent: rgba(213, 94, 0, 0.3);
+    --color-scoreboard-row-bg: #f8fafc;
+    --color-scoreboard-row-ring: rgba(0, 114, 178, 0.18);
+    --color-scoreboard-input-border: rgba(0, 114, 178, 0.4);
+    --color-scoreboard-input-focus: rgba(0, 114, 178, 0.22);
+    --color-scoreboard-notice-bg: #ecfeff;
+    --color-scoreboard-notice-text: #075985;
 
     --filter-resolve-win-rest: saturate(0.85) drop-shadow(0 0 0 rgba(230, 159, 0, 0));
     --filter-resolve-win-burst: saturate(1.35) drop-shadow(0 0 18px rgba(230, 159, 0, 0.72));

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../Common/Button';
+import { SettingsControls } from '../Settings/SettingsControls';
 import { useAudio } from '../../hooks/useAudio';
 import { useTranslation } from '../../store/useI18nStore';
 
@@ -24,6 +25,8 @@ export const StartScreen = ({ onStart }: StartScreenProps) => {
 
   return (
     <div className="flex w-full max-w-sm flex-col items-center gap-10 px-6">
+      <SettingsControls showMute={false} />
+
       <motion.div
         initial={{ y: '-100vh', opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
