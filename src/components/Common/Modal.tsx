@@ -43,7 +43,12 @@ export const Modal = ({
   }, [isOpen]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Escape') {
+    if (
+      event.key === 'Escape' ||
+      event.key === ' ' ||
+      event.key === 'Spacebar'
+    ) {
+      event.preventDefault();
       onClose?.();
       return;
     }
@@ -85,8 +90,15 @@ export const Modal = ({
     return null;
   }
 
+  const handlePointerDown = () => {
+    onClose?.();
+  };
+
   return (
-    <div className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/35 px-4">
+    <div
+      className="fixed inset-0 z-30 flex items-center justify-center bg-slate-950/35 px-4"
+      onPointerDown={handlePointerDown}
+    >
       <motion.div
         ref={dialogRef}
         role="dialog"
@@ -98,6 +110,7 @@ export const Modal = ({
         exit={{ opacity: 0, scale: 0.96, y: 8 }}
         transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
         onKeyDown={handleKeyDown}
+        onPointerDown={handlePointerDown}
         className="w-full max-w-sm rounded-2xl bg-white px-6 py-7 text-center shadow-2xl outline-none ring-1 ring-slate-200"
         style={{
           boxShadow: accentColor

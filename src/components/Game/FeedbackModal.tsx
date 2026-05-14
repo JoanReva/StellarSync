@@ -1,7 +1,8 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { Modal } from '../Common/Modal';
 import { useGameStore } from '../../store/useGameStore';
+import { useSettingsStore } from '../../store/useSettingsStore';
 import { FEEDBACK_MODAL_CONFIG } from '../../utils/constants';
 
 const feedbackText = {
@@ -10,8 +11,12 @@ const feedbackText = {
 } as const;
 
 export const FeedbackModal = () => {
+  const hasClosedRef = useRef(false);
   const feedback = useGameStore((state) => state.feedback);
   const status = useGameStore((state) => state.status);
+  const isVisualFeedbackEnabled = useSettingsStore(
+    (state) => state.isVisualFeedbackEnabled,
+  );
   const pauseTimer = useGameStore((state) => state.pauseTimer);
   const resumeTimer = useGameStore((state) => state.resumeTimer);
   const resolvePendingSelection = useGameStore(
@@ -19,11 +24,18 @@ export const FeedbackModal = () => {
   );
   const clearFeedback = useGameStore((state) => state.clearFeedback);
   const accentColor =
-    feedback?.type === 'match'
+    isVisualFeedbackEnabled && feedback?.type === 'match'
       ? 'var(--color-modal-match-accent)'
-      : 'var(--color-modal-mismatch-accent)';
+      : isVisualFeedbackEnabled
+        ? 'var(--color-modal-mismatch-accent)'
+        : undefined;
 
   const closeFeedback = useCallback(() => {
+    if (hasClosedRef.current) {
+      return;
+    }
+
+    hasClosedRef.current = true;
     resolvePendingSelection();
     clearFeedback();
     if (status === 'playing') {
@@ -36,6 +48,7 @@ export const FeedbackModal = () => {
       return undefined;
     }
 
+    hasClosedRef.current = false;
     pauseTimer();
 
     const timeoutId = window.setTimeout(() => {
