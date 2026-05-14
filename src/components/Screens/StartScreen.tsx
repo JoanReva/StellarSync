@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../Common/Button';
+import { useAudio } from '../../hooks/useAudio';
 
 interface StartScreenProps {
   onStart: () => void;
@@ -8,10 +9,16 @@ interface StartScreenProps {
 
 export const StartScreen = ({ onStart }: StartScreenProps) => {
   const startButtonRef = useRef<HTMLButtonElement>(null);
+  const { play } = useAudio();
 
   useEffect(() => {
     startButtonRef.current?.focus();
   }, []);
+
+  const handleStart = () => {
+    play('correct'); // Play the start sound
+    onStart();
+  };
 
   return (
     <div className="flex w-full max-w-sm flex-col items-center gap-10 px-6">
@@ -28,12 +35,12 @@ export const StartScreen = ({ onStart }: StartScreenProps) => {
         />
       </motion.div>
 
-    <motion.div
-      initial={{ opacity: 0 }} 
-      animate={{ opacity: 1, transition: { duration: 2 } }}
-    >
-    <h1 className="text-7xl font-bold text-center pb-6">StellarSync</h1>
-    </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }} 
+        animate={{ opacity: 1, transition: { duration: 2 } }}
+      >
+        <h1 className="text-7xl font-bold text-center pb-6">StellarSync</h1>
+      </motion.div>
 
       {/*Button slide in from the bottom*/}
       <motion.div
@@ -41,7 +48,7 @@ export const StartScreen = ({ onStart }: StartScreenProps) => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", damping: 20, stiffness: 100, delay: 0.5 }}
       >
-        <Button ref={startButtonRef} onClick={onStart} size="lg">
+        <Button ref={startButtonRef} onClick={handleStart} size="lg">
           Start
         </Button>
       </motion.div>

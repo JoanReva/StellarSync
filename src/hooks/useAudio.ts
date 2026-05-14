@@ -66,7 +66,7 @@ const getSounds = () => {
         volume: config.volume,
         loop: config.loop ?? false,
         preload: true,
-        html5: true,
+        html5: config.loop === true,
       }),
     ]),
   ) as Record<SoundName, Howl>;
@@ -103,14 +103,9 @@ export const useAudio = () => {
     getSounds()[soundName].stop();
   }, []);
 
-  const stopAll = useCallback(() => {
-    Object.values(getSounds()).forEach((sound) => sound.stop());
-  }, []);
-
   return {
     isMuted,
     play,
     stop,
-    stopAll,
   };
 };
