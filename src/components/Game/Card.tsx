@@ -5,7 +5,6 @@ import starUrl from '../../assets/cards/star.svg';
 import sunUrl from '../../assets/cards/sun.svg';
 import type { CardSymbol, MemoryCard } from '../../store/useGameStore';
 import { useSettingsStore } from '../../store/useSettingsStore';
-import { CARD_ANIMATION_CONFIG, CARD_THEME_CONFIG } from '../../utils/constants';
 
 type CardProps = {
   card: MemoryCard;
@@ -14,6 +13,29 @@ type CardProps = {
   isWaiting: boolean;
   onSelect: (cardId: string) => void;
 };
+
+const CARD_MOTION = {
+  hoverLiftY: -4,
+  tapScale: 0.97,
+  waitingOpacity: 0.48,
+  waitingScale: 0.96,
+  comparingPulseY: [0, -3, 0],
+  flipDurationSeconds: 0.45,
+  comparingPulseDurationSeconds: 0.8,
+  comparingRingDurationSeconds: 0.8,
+  waitingShimmerDurationSeconds: 0.9,
+} as const;
+
+const CARD_COLORS = {
+  backBackground: 'var(--color-card-back-bg)',
+  backText: 'var(--color-card-back-text)',
+  backBorder: 'var(--color-card-back-border)',
+  frontBackground: 'var(--color-card-front-bg)',
+  frontBorder: 'var(--color-card-front-border)',
+  comparingRing: 'var(--color-card-comparing-ring)',
+  comparingGlow: 'var(--color-card-comparing-glow)',
+  waitingOverlay: 'var(--color-card-waiting-overlay)',
+} as const;
 
 const cardImages: Record<CardSymbol, string> = {
   star: starUrl,
@@ -54,28 +76,24 @@ export const Card = ({
       className="group aspect-square w-full rounded-2xl focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)] focus:ring-offset-4 disabled:cursor-not-allowed"
       // Controls the blocked/comparing visual state for the whole card.
       animate={{
-        opacity: isWaiting ? CARD_ANIMATION_CONFIG.waitingOpacity : 1,
-        scale: isWaiting ? CARD_ANIMATION_CONFIG.waitingScale : 1,
-        y: isComparing ? [...CARD_ANIMATION_CONFIG.comparingPulseY] : 0,
+        opacity: isWaiting ? CARD_MOTION.waitingOpacity : 1,
+        scale: isWaiting ? CARD_MOTION.waitingScale : 1,
+        y: isComparing ? [...CARD_MOTION.comparingPulseY] : 0,
       }}
       // Face-down cards lift on hover to show they are clickable.
       whileHover={
-        !isDisabled && !isFaceUp
-          ? { y: CARD_ANIMATION_CONFIG.hoverLiftY }
-          : undefined
+        !isDisabled && !isFaceUp ? { y: CARD_MOTION.hoverLiftY } : undefined
       }
       // Small press animation when the player clicks a selectable card.
       whileTap={
-        !isDisabled && !isFaceUp
-          ? { scale: CARD_ANIMATION_CONFIG.tapScale }
-          : undefined
+        !isDisabled && !isFaceUp ? { scale: CARD_MOTION.tapScale } : undefined
       }
       transition={{
         opacity: { duration: 0.2 },
         scale: { type: 'spring', stiffness: 360, damping: 24 },
         y: {
           repeat: isComparing ? Infinity : 0,
-          duration: CARD_ANIMATION_CONFIG.comparingPulseDurationSeconds,
+          duration: CARD_MOTION.comparingPulseDurationSeconds,
         },
       }}
     >
@@ -85,7 +103,7 @@ export const Card = ({
           // Flips the card from the blue back to the symbol face.
           animate={{ rotateY: isFaceUp ? 180 : 0 }}
           transition={{
-            duration: CARD_ANIMATION_CONFIG.flipDurationSeconds,
+            duration: CARD_MOTION.flipDurationSeconds,
             ease: [0.22, 1, 0.36, 1],
           }}
           style={{ transformStyle: 'preserve-3d' }}
@@ -94,9 +112,9 @@ export const Card = ({
             className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-2xl border-4 text-5xl font-bold shadow-[var(--shadow-card)] [backface-visibility:hidden] md:text-6xl"
             style={{
               backfaceVisibility: 'hidden',
-              background: CARD_THEME_CONFIG.backBackground,
-              borderColor: CARD_THEME_CONFIG.backBorder,
-              color: CARD_THEME_CONFIG.backText,
+              background: CARD_COLORS.backBackground,
+              borderColor: CARD_COLORS.backBorder,
+              color: CARD_COLORS.backText,
             }}
           >
             ?
@@ -108,10 +126,10 @@ export const Card = ({
               backfaceVisibility: 'hidden',
               background: card.isMatched
                 ? 'var(--color-card-matched-bg)'
-                : CARD_THEME_CONFIG.frontBackground,
+                : CARD_COLORS.frontBackground,
               borderColor: card.isMatched
                 ? 'var(--color-card-matched-border)'
-                : CARD_THEME_CONFIG.frontBorder,
+                : CARD_COLORS.frontBorder,
               transform: 'rotateY(180deg)',
             }}
           >
@@ -141,13 +159,13 @@ export const Card = ({
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 rounded-2xl"
             style={{
-              boxShadow: `0 0 0 4px ${CARD_THEME_CONFIG.comparingRing}, 0 0 22px ${CARD_THEME_CONFIG.comparingGlow}`,
+              boxShadow: `0 0 0 4px ${CARD_COLORS.comparingRing}, 0 0 22px ${CARD_COLORS.comparingGlow}`,
             }}
             // Pulsing ring marks the two cards currently being compared.
             animate={{ opacity: [0.35, 0.9, 0.35] }}
             transition={{
               repeat: Infinity,
-              duration: CARD_ANIMATION_CONFIG.comparingRingDurationSeconds,
+              duration: CARD_MOTION.comparingRingDurationSeconds,
             }}
           />
         )}
@@ -156,13 +174,13 @@ export const Card = ({
           <motion.span
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 rounded-2xl"
-            style={{ background: CARD_THEME_CONFIG.waitingOverlay }}
+            style={{ background: CARD_COLORS.waitingOverlay }}
             initial={{ opacity: 0 }}
             // Shimmer over unavailable cards while the board is locked.
             animate={{ opacity: [0.15, 0.35, 0.15] }}
             transition={{
               repeat: Infinity,
-              duration: CARD_ANIMATION_CONFIG.waitingShimmerDurationSeconds,
+              duration: CARD_MOTION.waitingShimmerDurationSeconds,
             }}
           />
         )}

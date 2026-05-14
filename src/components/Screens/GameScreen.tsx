@@ -11,6 +11,8 @@ type GameScreenProps = {
   onResolve: () => void;
 };
 
+const RESOLVE_SCREEN_DELAY_MS = 450;
+
 export const GameScreen = ({ onResolve }: GameScreenProps) => {
   const feedback = useGameStore((state) => state.feedback);
   const status = useGameStore((state) => state.status);
@@ -57,7 +59,7 @@ export const GameScreen = ({ onResolve }: GameScreenProps) => {
 
     const timeoutId = window.setTimeout(() => {
       onResolve();
-    }, 450);
+    }, RESOLVE_SCREEN_DELAY_MS);
 
     return () => window.clearTimeout(timeoutId);
   }, [onResolve, status]);

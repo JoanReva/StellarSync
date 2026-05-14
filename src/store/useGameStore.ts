@@ -1,10 +1,5 @@
 import { create } from 'zustand';
-import {
-  CARD_SYMBOLS,
-  GAME_DURATION_MS,
-  TIMER_TICK_MS,
-  TOTAL_PAIRS,
-} from '../utils/constants';
+import { CARD_SYMBOLS, GAME_RULES } from '../utils/constants';
 import { shuffleUntilValid, type RandomSource } from '../utils/shuffle';
 
 export type CardSymbol = (typeof CARD_SYMBOLS)[number];
@@ -51,7 +46,7 @@ export type GameStore = GameState & GameActions;
 
 const createDeck = (randomSource?: RandomSource): MemoryCard[] => {
   const deck = CARD_SYMBOLS.flatMap((symbol) =>
-    [0, 1].map((pairIndex) => ({
+    Array.from({ length: GAME_RULES.pairsPerSymbol }, (_, pairIndex) => ({
       id: `${symbol}-${pairIndex}`,
       symbol,
       pairIndex,
@@ -73,7 +68,7 @@ const createInitialState = (): GameState => ({
   attempts: 0,
   status: 'idle',
   feedback: null,
-  timeRemaining: GAME_DURATION_MS,
+  timeRemaining: GAME_RULES.durationMs,
   isTimerPaused: true,
 });
 
@@ -161,7 +156,8 @@ export const useGameStore = create<GameStore>((set) => ({
       }
 
       const nextMatchesFound = state.matchesFound + 1;
-      const nextStatus = nextMatchesFound === TOTAL_PAIRS ? 'won' : 'playing';
+      const nextStatus =
+        nextMatchesFound === CARD_SYMBOLS.length ? 'won' : 'playing';
       const matchedIds = new Set([firstCard.id, selectedCard.id]);
 
       return {
@@ -210,7 +206,7 @@ export const useGameStore = create<GameStore>((set) => ({
       }
 
       const nextTimeRemaining = Math.max(
-        state.timeRemaining - TIMER_TICK_MS,
+        state.timeRemaining - GAME_RULES.timerTickMs,
         0,
       );
 

@@ -2,11 +2,20 @@ import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAudio } from '../../hooks/useAudio';
 import { useGameStore } from '../../store/useGameStore';
-import {
-  TICKING_THRESHOLD_MS,
-  TIMER_ANIMATION_CONFIG,
-  TIMER_TICK_MS,
-} from '../../utils/constants';
+import { GAME_RULES } from '../../utils/constants';
+
+const TIMER_MOTION = {
+  normalScale: 1,
+  lowTimeScalePulse: [1, 1.045, 1],
+  lowTimeDurationSeconds: 0.75,
+  normalDurationSeconds: 0.2,
+  lowTimeBoxShadow: [
+    'var(--shadow-timer-normal)',
+    'var(--shadow-timer-low)',
+    'var(--shadow-timer-normal)',
+  ],
+  normalBoxShadow: 'var(--shadow-timer-normal)',
+} as const;
 
 export const Timer = () => {
   const timeRemaining = useGameStore((state) => state.timeRemaining);
@@ -18,7 +27,7 @@ export const Timer = () => {
     status === 'playing' &&
     !isTimerPaused &&
     timeRemaining > 0 &&
-    timeRemaining <= TICKING_THRESHOLD_MS;
+    timeRemaining <= GAME_RULES.lowTimeThresholdMs;
   const formattedTimeRemaining = (timeRemaining / 1000).toFixed(1);
 
   useEffect(() => {
@@ -28,7 +37,7 @@ export const Timer = () => {
 
     const intervalId = window.setInterval(() => {
       tickTimer();
-    }, TIMER_TICK_MS);
+    }, GAME_RULES.timerTickMs);
 
     return () => window.clearInterval(intervalId);
   }, [isTimerPaused, status, tickTimer]);
@@ -54,21 +63,21 @@ export const Timer = () => {
           ? {
               backgroundColor: 'var(--color-timer-low-bg)',
               color: 'var(--color-timer-low-text)',
-              boxShadow: [...TIMER_ANIMATION_CONFIG.lowTimeBoxShadow],
+              boxShadow: [...TIMER_MOTION.lowTimeBoxShadow],
             }
           : {
               backgroundColor: 'var(--color-timer-bg)',
               color: 'var(--color-timer-text)',
-              boxShadow: TIMER_ANIMATION_CONFIG.normalBoxShadow,
+              boxShadow: TIMER_MOTION.normalBoxShadow,
             }
       }
       transition={
         isLowTime
           ? {
               repeat: Infinity,
-              duration: TIMER_ANIMATION_CONFIG.lowTimeDurationSeconds,
+              duration: TIMER_MOTION.lowTimeDurationSeconds,
             }
-          : { duration: TIMER_ANIMATION_CONFIG.normalDurationSeconds }
+          : { duration: TIMER_MOTION.normalDurationSeconds }
       }
       style={{
         ['--tw-ring-color' as string]: isLowTime
@@ -91,11 +100,11 @@ export const Timer = () => {
         animate={
           isLowTime
             ? {
-                scale: [...TIMER_ANIMATION_CONFIG.lowTimeScalePulse],
+                scale: [...TIMER_MOTION.lowTimeScalePulse],
                 color: 'var(--color-timer-low-text)',
               }
             : {
-                scale: TIMER_ANIMATION_CONFIG.normalScale,
+                scale: TIMER_MOTION.normalScale,
                 color: 'var(--color-timer-text)',
               }
         }
@@ -103,9 +112,9 @@ export const Timer = () => {
           isLowTime
             ? {
                 repeat: Infinity,
-                duration: TIMER_ANIMATION_CONFIG.lowTimeDurationSeconds,
+                duration: TIMER_MOTION.lowTimeDurationSeconds,
               }
-            : { duration: TIMER_ANIMATION_CONFIG.normalDurationSeconds }
+            : { duration: TIMER_MOTION.normalDurationSeconds }
         }
       >
         {formattedTimeRemaining}s

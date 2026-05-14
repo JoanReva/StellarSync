@@ -3,12 +3,13 @@ import { AnimatePresence } from 'framer-motion';
 import { Modal } from '../Common/Modal';
 import { useGameStore } from '../../store/useGameStore';
 import { useSettingsStore } from '../../store/useSettingsStore';
-import { FEEDBACK_MODAL_CONFIG } from '../../utils/constants';
 
 const feedbackText = {
   match: "nice! it's a match",
   mismatch: 'sorry, but this is not a match',
 } as const;
+
+const FEEDBACK_AUTO_CLOSE_MS = 1000;
 
 export const FeedbackModal = () => {
   const hasClosedRef = useRef(false);
@@ -53,7 +54,7 @@ export const FeedbackModal = () => {
 
     const timeoutId = window.setTimeout(() => {
       closeFeedback();
-    }, FEEDBACK_MODAL_CONFIG.autoCloseMs);
+    }, FEEDBACK_AUTO_CLOSE_MS);
 
     return () => window.clearTimeout(timeoutId);
   }, [closeFeedback, feedback, pauseTimer]);
