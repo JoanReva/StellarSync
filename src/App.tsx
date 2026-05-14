@@ -1,20 +1,20 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import { ScreenWrapper } from './components/Common/ScreenWrapper';
-import { StartScreen } from './components/Screens/StartScreen';
-import { ErrorBoundary } from './components/Common/ErrorBoundary';
-import { GameScreen } from './components/Screens/GameScreen';
-import { ResolveScreen } from './components/Screens/ResolveScreen';
-import { ReloadConfirmationModal } from './components/Game/ReloadConfirmationModal';
-import { usePreventPageUnload } from './hooks/usePreventPageUnload';
-import { useGameStore } from './store/useGameStore';
-import { useSettingsStore } from './store/useSettingsStore';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence } from "framer-motion";
+import { ScreenWrapper } from "./components/Common/ScreenWrapper";
+import { StartScreen } from "./components/Screens/StartScreen";
+import { ErrorBoundary } from "./components/Common/ErrorBoundary";
+import { GameScreen } from "./components/Screens/GameScreen";
+import { ResolveScreen } from "./components/Screens/ResolveScreen";
+import { ReloadConfirmationModal } from "./components/Game/ReloadConfirmationModal";
+import { usePreventPageUnload } from "./hooks/usePreventPageUnload";
+import { useGameStore } from "./store/useGameStore";
+import { useSettingsStore } from "./store/useSettingsStore";
 
-type ScreenState = 'START' | 'GAME' | 'RESOLVE';
-type PendingLeaveAction = 'back' | 'reload';
+type ScreenState = "START" | "GAME" | "RESOLVE";
+type PendingLeaveAction = "back" | "reload";
 
 function App() {
-  const [currentScreen, setCurrentScreen] = useState<ScreenState>('START');
+  const [currentScreen, setCurrentScreen] = useState<ScreenState>("START");
   const [pendingLeaveAction, setPendingLeaveAction] =
     useState<PendingLeaveAction | null>(null);
   const isBrowserLeaveConfirmedRef = useRef(false);
@@ -27,7 +27,7 @@ function App() {
     (state) => state.isColorBlindModeEnabled,
   );
 
-  const isGameInProgress = status === 'playing';
+  const isGameInProgress = status === "playing";
 
   usePreventPageUnload(isGameInProgress, {
     shouldBypass: () => isBrowserLeaveConfirmedRef.current,
@@ -35,8 +35,8 @@ function App() {
 
   useEffect(() => {
     document.documentElement.dataset.colorMode = isColorBlindModeEnabled
-      ? 'colorblind'
-      : 'default';
+      ? "colorblind"
+      : "default";
   }, [isColorBlindModeEnabled]);
 
   const openLeaveConfirmation = useCallback(
@@ -54,26 +54,26 @@ function App() {
 
     const handleReloadShortcut = (event: KeyboardEvent) => {
       const isReloadShortcut =
-        event.key === 'F5' ||
-        ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'r');
+        event.key === "F5" ||
+        ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "r");
 
       if (!isReloadShortcut) {
         return;
       }
 
       event.preventDefault();
-      openLeaveConfirmation('reload');
+      openLeaveConfirmation("reload");
     };
 
-    window.addEventListener('keydown', handleReloadShortcut);
+    window.addEventListener("keydown", handleReloadShortcut);
 
     return () => {
-      window.removeEventListener('keydown', handleReloadShortcut);
+      window.removeEventListener("keydown", handleReloadShortcut);
     };
   }, [isGameInProgress, openLeaveConfirmation]);
 
   useEffect(() => {
-    if (pendingLeaveAction !== null && status === 'playing') {
+    if (pendingLeaveAction !== null && status === "playing") {
       pauseTimer();
     }
   }, [feedback, pauseTimer, pendingLeaveAction, status]);
@@ -85,7 +85,7 @@ function App() {
 
     window.history.pushState(
       { stellarSyncGameGuard: true },
-      '',
+      "",
       window.location.href,
     );
 
@@ -96,16 +96,16 @@ function App() {
 
       window.history.pushState(
         { stellarSyncGameGuard: true },
-        '',
+        "",
         window.location.href,
       );
-      openLeaveConfirmation('back');
+      openLeaveConfirmation("back");
     };
 
-    window.addEventListener('popstate', handleBrowserBack);
+    window.addEventListener("popstate", handleBrowserBack);
 
     return () => {
-      window.removeEventListener('popstate', handleBrowserBack);
+      window.removeEventListener("popstate", handleBrowserBack);
     };
   }, [isGameInProgress, openLeaveConfirmation]);
 
@@ -113,20 +113,20 @@ function App() {
     isBrowserLeaveConfirmedRef.current = false;
     setPendingLeaveAction(null);
     startGame();
-    setCurrentScreen('GAME');
+    setCurrentScreen("GAME");
   };
 
   const handlePlayAgain = () => {
     isBrowserLeaveConfirmedRef.current = false;
     setPendingLeaveAction(null);
     startGame();
-    setCurrentScreen('GAME');
+    setCurrentScreen("GAME");
   };
 
   const handleCancelLeave = useCallback(() => {
     setPendingLeaveAction(null);
 
-    if (status === 'playing' && !feedback) {
+    if (status === "playing" && !feedback) {
       resumeTimer();
     }
   }, [feedback, resumeTimer, status]);
@@ -134,9 +134,9 @@ function App() {
   const handleConfirmLeave = useCallback(() => {
     isBrowserLeaveConfirmedRef.current = true;
 
-    if (pendingLeaveAction === 'back') {
-      setCurrentScreen('START'); // Navigate back to the Start screen
-      setPendingLeaveAction(null); // Close the modal
+    if (pendingLeaveAction === "back") {
+      setCurrentScreen("START");
+      setPendingLeaveAction(null);
       return;
     }
 
@@ -146,26 +146,26 @@ function App() {
   return (
     <ErrorBoundary>
       <AnimatePresence mode="wait">
-        {currentScreen === 'START' && (
+        {currentScreen === "START" && (
           <ScreenWrapper id="start-wrapper">
             <StartScreen onStart={handleStart} />
           </ScreenWrapper>
         )}
 
-        {currentScreen === 'GAME' && (
+        {currentScreen === "GAME" && (
           <ScreenWrapper id="game-wrapper">
-            <GameScreen onResolve={() => setCurrentScreen('RESOLVE')} />
+            <GameScreen onResolve={() => setCurrentScreen("RESOLVE")} />
           </ScreenWrapper>
         )}
 
-        {currentScreen === 'RESOLVE' && (
+        {currentScreen === "RESOLVE" && (
           <ScreenWrapper id="resolve-wrapper">
             <ResolveScreen status={status} onPlayAgain={handlePlayAgain} />
           </ScreenWrapper>
         )}
       </AnimatePresence>
       <ReloadConfirmationModal
-        action={pendingLeaveAction ?? 'reload'}
+        action={pendingLeaveAction ?? "reload"}
         isOpen={isGameInProgress && pendingLeaveAction !== null}
         onCancel={handleCancelLeave}
         onConfirm={handleConfirmLeave}

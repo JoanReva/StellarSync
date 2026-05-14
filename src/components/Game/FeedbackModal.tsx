@@ -3,11 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import { Modal } from '../Common/Modal';
 import { useGameStore } from '../../store/useGameStore';
 import { useSettingsStore } from '../../store/useSettingsStore';
-
-const feedbackText = {
-  match: "nice! it's a match",
-  mismatch: 'sorry, but this is not a match',
-} as const;
+import { useTranslation } from '../../store/useI18nStore';
 
 const FEEDBACK_AUTO_CLOSE_MS = 1000;
 
@@ -15,6 +11,7 @@ export const FeedbackModal = () => {
   const hasClosedRef = useRef(false);
   const feedback = useGameStore((state) => state.feedback);
   const status = useGameStore((state) => state.status);
+  const { t } = useTranslation();
   const isVisualFeedbackEnabled = useSettingsStore(
     (state) => state.isVisualFeedbackEnabled,
   );
@@ -72,7 +69,7 @@ export const FeedbackModal = () => {
             id="feedback-modal-title"
             className="text-2xl font-bold text-[var(--color-text-main)]"
           >
-            {feedbackText[feedback.type]}
+            {feedback ? (feedback.type === 'match' ? t('match') : t('mismatch')) : ''}
           </p>
         </Modal>
       )}

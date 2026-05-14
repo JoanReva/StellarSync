@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAudio } from '../../hooks/useAudio';
+import { useTranslation } from '../../store/useI18nStore';
 import { useGameStore } from '../../store/useGameStore';
 import { GAME_RULES } from '../../utils/constants';
 
@@ -22,6 +23,7 @@ export const Timer = () => {
   const isTimerPaused = useGameStore((state) => state.isTimerPaused);
   const status = useGameStore((state) => state.status);
   const tickTimer = useGameStore((state) => state.tickTimer);
+  const { t } = useTranslation();
   const { play, stop } = useAudio();
   const isLowTime =
     status === 'playing' &&
@@ -56,7 +58,7 @@ export const Timer = () => {
     <motion.div
       role="timer"
       aria-live={isLowTime ? 'assertive' : 'polite'}
-      aria-label={`Remaining time: ${formattedTimeRemaining} seconds`}
+      aria-label={t('remainingTimeAria', { time: formattedTimeRemaining })}
       className="absolute left-4 top-4 z-20 flex items-baseline gap-2 rounded-full px-5 py-3 ring-2 sm:left-5 sm:top-5"
       animate={
         isLowTime
@@ -93,7 +95,7 @@ export const Timer = () => {
             : 'var(--color-timer-label)',
         }}
       >
-        Remaining time
+        {t('remainingTime')}
       </span>
       <motion.span
         className="text-2xl font-bold tabular-nums"

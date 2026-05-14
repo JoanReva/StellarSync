@@ -5,6 +5,7 @@ import starUrl from '../../assets/cards/star.svg';
 import sunUrl from '../../assets/cards/sun.svg';
 import type { CardSymbol, MemoryCard } from '../../store/useGameStore';
 import { useSettingsStore } from '../../store/useSettingsStore';
+import { useTranslation } from '../../store/useI18nStore';
 
 type CardProps = {
   card: MemoryCard;
@@ -44,13 +45,6 @@ const cardImages: Record<CardSymbol, string> = {
   comet: cometUrl,
 };
 
-const cardLabels: Record<CardSymbol, string> = {
-  star: 'star',
-  moon: 'moon',
-  sun: 'sun',
-  comet: 'comet',
-};
-
 export const Card = ({
   card,
   isDisabled,
@@ -61,10 +55,16 @@ export const Card = ({
   const isCardLabelEnabled = useSettingsStore(
     (state) => state.isCardLabelEnabled,
   );
+  const { t } = useTranslation();
+  
   const isFaceUp = card.isFlipped || card.isMatched;
+  const translatedSymbol = t(`symbol_${card.symbol}` as Parameters<typeof t>[0]);
+  
   const label = isFaceUp
-    ? `${cardLabels[card.symbol]} card${card.isMatched ? ', matched' : ''}`
-    : 'Reveal card';
+    ? card.isMatched
+      ? t('cardMatched', { symbol: translatedSymbol })
+      : t('cardRevealed', { symbol: translatedSymbol })
+    : t('revealCard');
 
   return (
     <motion.button
@@ -148,7 +148,7 @@ export const Card = ({
                   color: 'var(--color-card-label-text)',
                 }}
               >
-                {cardLabels[card.symbol]}
+                {translatedSymbol}
               </span>
             )}
           </span>

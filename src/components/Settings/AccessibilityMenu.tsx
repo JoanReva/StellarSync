@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSettingsStore } from '../../store/useSettingsStore';
+import { useTranslation } from '../../store/useI18nStore';
 
 const ToggleRow = ({
   checked,
@@ -41,12 +42,13 @@ export const AccessibilityMenu = () => {
   const toggleVisualFeedback = useSettingsStore(
     (state) => state.toggleVisualFeedback,
   );
+  const { t } = useTranslation();
 
   return (
     <div className="relative">
       <button
         type="button"
-        aria-label="Accessibility settings"
+        aria-label={t('accessibilitySettings')}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((current) => !current)}
         className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-surface)] text-lg font-bold text-[var(--color-text-main)] shadow-[var(--shadow-control)] ring-2 ring-[var(--color-surface-ring)] transition duration-200 hover:scale-105 hover:bg-[var(--color-bg-secondary)] focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)] focus:ring-offset-2"
@@ -59,17 +61,17 @@ export const AccessibilityMenu = () => {
           <div className="flex flex-col gap-4">
             <ToggleRow
               checked={isColorBlindModeEnabled}
-              label="Color-safe mode"
+              label={t('colorSafeMode')}
               onToggle={toggleColorBlindMode}
             />
             <ToggleRow
               checked={isVisualFeedbackEnabled}
-              label="Visual cues"
+              label={t('visualCues')}
               onToggle={toggleVisualFeedback}
             />
             <ToggleRow
               checked={isCardLabelEnabled}
-              label="Card labels"
+              label={t('cardLabels')}
               onToggle={toggleCardLabels}
             />
           </div>

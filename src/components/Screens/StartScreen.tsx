@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../Common/Button';
 import { useAudio } from '../../hooks/useAudio';
+import { useTranslation } from '../../store/useI18nStore';
 
 interface StartScreenProps {
   onStart: () => void;
@@ -10,6 +11,7 @@ interface StartScreenProps {
 export const StartScreen = ({ onStart }: StartScreenProps) => {
   const startButtonRef = useRef<HTMLButtonElement>(null);
   const { play } = useAudio();
+  const { t } = useTranslation();
 
   useEffect(() => {
     startButtonRef.current?.focus();
@@ -39,7 +41,7 @@ export const StartScreen = ({ onStart }: StartScreenProps) => {
         initial={{ opacity: 0 }} 
         animate={{ opacity: 1, transition: { duration: 2 } }}
       >
-        <h1 className="text-7xl font-bold text-center pb-6">StellarSync</h1>
+        <h1 className="pb-6 text-center text-7xl font-bold">{t('stellarSync')}</h1>
       </motion.div>
 
       {/*Button slide in from the bottom*/}
@@ -49,7 +51,7 @@ export const StartScreen = ({ onStart }: StartScreenProps) => {
         transition={{ type: "spring", damping: 20, stiffness: 100, delay: 0.5 }}
       >
         <Button ref={startButtonRef} onClick={handleStart} size="lg">
-          Start
+          {t('start')}
         </Button>
       </motion.div>
     </div>

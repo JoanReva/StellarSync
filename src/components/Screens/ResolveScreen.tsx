@@ -4,6 +4,7 @@ import { Button } from '../Common/Button';
 import { Confetti } from '../Game/Confetti';
 import { useAudio } from '../../hooks/useAudio';
 import type { GameStatus } from '../../store/useGameStore';
+import { useTranslation } from '../../store/useI18nStore';
 
 type ResolveScreenProps = {
   status: GameStatus;
@@ -14,6 +15,7 @@ export const ResolveScreen = ({ status, onPlayAgain }: ResolveScreenProps) => {
   const playAgainButtonRef = useRef<HTMLButtonElement>(null);
   const didWin = status === 'won';
   const { play, stop } = useAudio();
+  const { t } = useTranslation();
 
   useEffect(() => {
     playAgainButtonRef.current?.focus();
@@ -71,7 +73,7 @@ export const ResolveScreen = ({ status, onPlayAgain }: ResolveScreenProps) => {
         }
         className="pb-6 text-5xl font-bold text-[var(--color-text-main)] sm:text-6xl"
       >
-        {didWin ? 'you did it' : "oops you didn't find them all"}
+        {didWin ? t('youDidIt') : t('oopsLost')}
       </motion.h1>
 
       <motion.div
@@ -80,7 +82,7 @@ export const ResolveScreen = ({ status, onPlayAgain }: ResolveScreenProps) => {
         transition={{ type: 'spring', stiffness: 180, damping: 18, delay: 0.15 }}
       >
         <Button ref={playAgainButtonRef} onClick={onPlayAgain} size="lg">
-          Play again
+          {t('playAgain')}
         </Button>
       </motion.div>
     </div>
