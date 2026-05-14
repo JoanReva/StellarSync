@@ -245,7 +245,7 @@ export const Scoreboard = ({
         <div aria-live="polite" className="mb-4 flex justify-center">
           {submitStatus === 'saved' && isSavedNoticeVisible && (
             <p className="rounded-full bg-[var(--color-scoreboard-saved-bg)] px-4 py-2 text-center text-sm font-bold text-[var(--color-scoreboard-saved-text)]">
-            {t('scoreSaved')}
+              {t('scoreSaved')}
             </p>
           )}
 

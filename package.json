@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "check:scoreboard": "node scripts/check-scoreboard-connection.mjs",
     "lint": "eslint .",
+    "test": "vitest run",
     "preview": "vite preview"
   },
   "dependencies": {
