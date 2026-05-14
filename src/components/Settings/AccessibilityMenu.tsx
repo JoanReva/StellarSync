@@ -51,9 +51,15 @@ export const AccessibilityMenu = () => {
         aria-label={t('accessibilitySettings')}
         aria-expanded={isOpen}
         onClick={() => setIsOpen((current) => !current)}
-        className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-surface)] text-lg font-bold text-[var(--color-text-main)] shadow-[var(--shadow-control)] ring-2 ring-[var(--color-surface-ring)] transition duration-200 hover:scale-105 hover:bg-[var(--color-bg-secondary)] focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)] focus:ring-offset-2"
+        className="inline-flex h-12 w-auto px-4 items-center justify-center gap-2 rounded-full bg-[var(--color-surface)] text-sm font-bold text-[var(--color-text-main)] shadow-[var(--shadow-control)] ring-2 ring-[var(--color-surface-ring)] transition duration-200 hover:scale-105 hover:bg-[var(--color-bg-secondary)] focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)] focus:ring-offset-2"
       >
-        Aa
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="16" cy="4" r="1"></circle>
+          <path d="m18 19 1-7-6 1"></path>
+          <path d="m5 8 3-3 5.5 3-2.36 3.5"></path>
+          <path d="M4.24 14.5a5 5 0 0 0 6.88 6"></path>
+          <path d="M13.76 17.5a5 5 0 0 0-6.88-6"></path>
+        </svg>
       </button>
 
       {isOpen && (

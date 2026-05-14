@@ -27,7 +27,7 @@ export const StartScreen = ({ onStart }: StartScreenProps) => {
   };
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center px-4 py-16 sm:py-24">
+    <div className="relative flex min-h-[100dvh] w-full flex-col items-center justify-center px-4 py-16 sm:py-24">
       <SettingsControls
         extraControl={
           <ScoreboardButton

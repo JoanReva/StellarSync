@@ -13,7 +13,7 @@ export const Board = () => {
     <section
       aria-label={t('memoryCards')}
       aria-busy={isBoardLocked}
-      className="grid w-full max-w-3xl grid-cols-2 gap-4 px-5 sm:grid-cols-4 sm:gap-5 md:gap-6"
+      className="mt-4 grid w-full max-w-3xl grid-cols-2 gap-4 px-5 sm:mt-0 sm:grid-cols-4 sm:gap-5 md:gap-6"
     >
       {cards.map((card) => {
         const isSelected = selectedCardIds.includes(card.id);

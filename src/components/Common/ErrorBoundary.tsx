@@ -27,7 +27,7 @@ export class ErrorBoundary extends Component<Props, State> {
       const language = useI18nStore.getState().language;
 
       return (
-        <div className="flex h-screen flex-col items-center justify-center bg-[var(--color-error-boundary-bg)] text-[var(--color-error-boundary-text)]">
+        <div className="flex min-h-[100dvh] flex-col items-center justify-center bg-[var(--color-error-boundary-bg)] text-[var(--color-error-boundary-text)]">
           <h1 className="mb-4 text-3xl font-bold">
             {translate(language, 'oopsError')}
           </h1>
