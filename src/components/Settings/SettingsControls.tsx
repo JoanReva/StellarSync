@@ -13,7 +13,7 @@ export const SettingsControls = ({
   showMute = true,
 }: SettingsControlsProps) => {
   return (
-    <div className="absolute right-4 top-4 z-20 flex items-start gap-2 sm:right-5 sm:top-5">
+    <div className="absolute right-3 top-3 z-20 flex flex-row items-end gap-2 sm:right-5 sm:top-5 sm:flex-row sm:items-start">
       <LanguageButton />
       <AccessibilityMenu />
       {showMute && <MuteButton />}

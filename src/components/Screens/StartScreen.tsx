@@ -27,7 +27,7 @@ export const StartScreen = ({ onStart }: StartScreenProps) => {
   };
 
   return (
-    <div className="flex w-full max-w-sm flex-col items-center gap-10 px-6 py-8">
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center px-4 py-16 sm:py-24">
       <SettingsControls
         extraControl={
           <ScoreboardButton
@@ -38,7 +38,7 @@ export const StartScreen = ({ onStart }: StartScreenProps) => {
         showMute={false}
       />
 
-      <div className="flex flex-col items-center gap-10">
+      <div className="flex w-full max-w-sm flex-col items-center gap-10 px-6 py-8">
         <motion.div
           initial={{ y: "-100vh", opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
