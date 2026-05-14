@@ -258,12 +258,12 @@ export const Scoreboard = ({
       )}
 
       {showEntries && scoreboardStatus === 'loading' && (
-        <p
-          aria-live="polite"
-          className="text-sm font-semibold text-[var(--color-text-muted)]"
-        >
-          {t('scoreLoading')}
-        </p>
+        <div className="flex items-center gap-3" aria-live="polite">
+          <div className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--color-primary)] border-t-transparent"></div>
+          <p className="text-sm font-semibold text-[var(--color-text-muted)]">
+            {t('scoreLoading')}
+          </p>
+        </div>
       )}
 
       {showEntries && scoreboardStatus === 'error' && (

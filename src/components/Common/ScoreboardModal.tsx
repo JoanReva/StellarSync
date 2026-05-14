@@ -22,8 +22,8 @@ export const ScoreboardModal = ({
       onClose={onClose}
       shouldCloseOnDialogPointerDown={false}
     >
-      <div className="flex flex-col gap-5">
-        <div className="flex items-start justify-between gap-4 border-b border-[var(--color-scoreboard-divider)] pb-4">
+      <div className="flex flex-col gap-4 sm:gap-5">
+        <div className="flex items-start justify-between gap-4 border-b border-[var(--color-scoreboard-divider)] pb-3">
           <div>
             <p className="text-xs font-bold uppercase tracking-wide text-[var(--color-text-muted)]">
               {t('scoreboardEyebrow')}
