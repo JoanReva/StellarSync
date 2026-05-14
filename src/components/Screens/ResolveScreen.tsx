@@ -92,7 +92,8 @@ export const ResolveScreen = ({ status, onPlayAgain }: ResolveScreenProps) => {
               timeRemainingMs={timeRemaining}
             />
           )}
-          <Button
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-sm mx-auto">
+            <Button
             ref={playAgainButtonRef}
             className="min-w-44"
             onClick={onPlayAgain}
@@ -105,6 +106,7 @@ export const ResolveScreen = ({ status, onPlayAgain }: ResolveScreenProps) => {
             onClick={() => setIsLeaderboardVisible(true)}
             variant="button"
           />
+          </div>          
         </motion.div>
       </div>
 
