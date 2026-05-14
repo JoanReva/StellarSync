@@ -23,7 +23,7 @@ export const useSettingsStore = create<SettingsStore>()(
     (set) => ({
       isColorBlindModeEnabled: false,
       isMuted: false,
-      isCardLabelEnabled: false,
+      isCardLabelEnabled: true,
       isVisualFeedbackEnabled: true,
       setMuted: (isMuted) => set({ isMuted }),
       toggleColorBlindMode: () =>
